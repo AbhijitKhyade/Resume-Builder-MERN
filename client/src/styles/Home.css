@@ -1,0 +1,49 @@
+/* Add this to your existing CSS */
+.welcome-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    width: 100%;
+    z-index: 999;
+    /* Adjust z-index as needed to ensure it's above other elements */
+}
+
+.welcome-container .welcome-text {
+    font-size: 10vw;
+    /* Increase font size */
+    margin: 0;
+    padding: 30px;
+    background: linear-gradient(to right, #ffcc00, #ff6666, #66ff66);
+    /* Use specified linear gradient for text colors */
+    -webkit-background-clip: text;
+    background-clip: text;
+    /* Increase padding */
+    animation: welcomeAnimation 3s ease-in-out forwards;
+    /* Animation for continual movement */
+}
+
+@keyframes welcomeAnimation {
+    0% {
+        opacity: 0;
+        color: transparent;
+        transform: scale(0.5);
+    }
+
+    70% {
+        opacity: 1;
+        color: transparent;
+        transform: scale(1);
+    }
+
+    100% {
+        opacity: 1;
+        color: transparent;
+        transform: scale(1);
+    }
+}
+
+.welcome-text.hidden {
+    color: transparent;
+}

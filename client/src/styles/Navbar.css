@@ -1,0 +1,21 @@
+.menu-icon {
+  display: none;
+}
+
+@media screen and (max-width: 768px) {
+  .logo {
+    display: none;
+  }
+  .logo-text {
+    padding-left: 25px;
+  }
+  .menu-icon {
+    display: block;
+    cursor: pointer;
+    position: absolute;
+    left: 20px;
+    top: 8px;
+    font-size: 16px;
+    font-weight: 600;
+  }
+}

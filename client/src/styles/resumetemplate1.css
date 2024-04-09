@@ -1,0 +1,399 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Arial", sans-serif;
+  color: #4a454a;
+  background-color: #ffecd6;
+  height: 100vh;
+  overflow-x: hidden;
+}
+
+.resume-container {
+  display: flex;
+  justify-content: space-between;
+  padding: 5px;
+}
+
+/* Title */
+.title-container {
+  text-align: center;
+  margin-bottom: 7px;
+  color: #4a454a;
+}
+
+.title-container .heading {
+  font-weight: 600;
+  display: inline-block;
+  border-bottom: 4px solid #4a454a;
+  width: 290px;
+  margin-bottom: 10px;
+  padding-bottom: 5px;
+  text-transform: uppercase;
+  width: 50%;
+  letter-spacing: 1px;
+}
+
+.resume-content {
+  margin-top: 10px;
+  display: flex;
+  gap: 5px;
+}
+
+/* Left Section */
+.left-section {
+  display: flex;
+  justify-content: left;
+  flex-direction: column;
+  gap: 0.7vw;
+  width: 36%;
+}
+
+/* User Info */
+
+.user-info {
+  display: flex;
+  justify-content: left;
+  flex-direction: column;
+  gap: 0.6vw;
+}
+
+.user-info-item {
+  width: 100%;
+  display: flex;
+  gap: 6px;
+}
+
+.user-info-item .icon {
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+}
+
+.user-info-item .content {
+  width: 90%;
+  word-wrap: break-word;
+  font-size: 13px;
+}
+
+/* Education Info */
+.education-info {
+  margin-top: 10px;
+  display: flex;
+  justify-content: left;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.education-info .heading {
+  font-size: 20px;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: #4a454a;
+}
+
+.education-info .info .college {
+  margin-top: 5px;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: #4a454a;
+  /* background-color: crimson; */
+  width: 80%;
+}
+
+.education-info .info .clg-details {
+  margin-top: 3px;
+  font-size: 14px;
+}
+
+.education-info .info .clg-details p {
+  margin-bottom: 2px;
+}
+
+.education-info .info .higher-clg {
+  margin-top: 10px;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: #4a454a;
+  /* background-color: crimson; */
+  width: 80%;
+}
+
+.education-info .info .school {
+  margin-top: 10px;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: #4a454a;
+  /* background-color: crimson; */
+  width: 80%;
+}
+
+.education-info .info .school-details {
+  margin-top: 3px;
+  font-size: 14px;
+}
+
+.education-info .info .school-details p {
+  margin-bottom: 2px;
+}
+
+/* Skills */
+.skills {
+  margin-top: 10px;
+}
+
+.skills .heading {
+  font-size: 20px;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: #4a454a;
+}
+
+.skills .skillSets {
+  display: grid;
+  margin-left: -4px;
+  flex-wrap: wrap;
+  grid-template-columns: repeat(
+    2,
+    minmax(0, 1fr)
+  ); /* Two columns with equal width */
+  gap: 0px;
+  /* border: 2px solid; */
+}
+
+.skills .skillSets .value {
+  /* margin-right: 25px; */
+  font-size: 14px;
+  margin-bottom: 10px;
+  word-wrap: break-word;
+  /* background-color: crimson; */
+}
+
+/* Hobbies */
+.hobbies {
+  margin-top: 10px;
+}
+
+.hobbies .heading {
+  font-size: 20px;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: #4a454a;
+}
+
+.hobbies .hobby-list {
+  margin-left: 4px;
+  padding: 2px;
+}
+
+.hobbies .hobby-list .value {
+  list-style: none;
+  font-size: 14px;
+  margin-bottom: 2px;
+}
+
+/* Links */
+.links {
+  margin-top: 10px;
+}
+
+.links .heading {
+  font-size: 20px;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: #4a454a;
+}
+
+.links .linkSets {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  flex-wrap: wrap;
+}
+
+.links .linkSets .link-item {
+  font-size: 14px;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.links .linkSets .link-item img {
+  width: 20px;
+  height: 20px;
+}
+
+.links .linkSets .link-item .ls {
+  /* background-color: red; */
+  width: 80%;
+}
+
+.links .linkSets .link-item .link {
+  cursor: pointer;
+  color: #4a454a;
+  text-decoration: none;
+  width: 90%;
+  /* border: 2px solid; */
+}
+
+/* Extra Curricular */
+.extra-curricular {
+  margin-top: 10px;
+}
+
+.extra-curricular .heading {
+  font-size: 20px;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: #4a454a;
+}
+
+.extra-curricular .extra-list {
+  margin-left: 4px;
+  padding: 2px;
+}
+
+.extra-curricular .extra-list .value {
+  list-style: none;
+  font-size: 14px;
+  margin-bottom: 2px;
+}
+
+/* Right Content */
+.right-section {
+  width: 63%;
+  margin-left: 10px;
+}
+
+/* About me */
+.about-me {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  color: #4a454a;
+}
+
+.about-me .heading {
+  margin-top: 0;
+  font-size: 20px;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.about-me .content {
+  text-align: justify;
+  font-size: 12px;
+  text-align: justify;
+}
+
+/* Experience */
+.experience {
+  margin-top: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.experience .heading {
+  font-size: 20px;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: #4a454a;
+}
+
+.experience .expr-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  text-align: justify;
+}
+
+.experience .expr-list .lists .name {
+  font-size: 16px;
+  font-weight: 600;
+  color: #4a454a;
+  gap: 2px;
+  margin-top: 10px;
+}
+
+.experience .expr-list .lists .content {
+  font-size: 12px;
+  margin-top: 4px;
+  text-align: justify;
+}
+
+/* Projects */
+.projects {
+  margin-top: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.projects .heading {
+  font-size: 20px;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: #4a454a;
+}
+
+.projects .pro-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  text-align: justify;
+}
+
+.projects .pro-list .lists .name {
+  font-size: 15px;
+  font-weight: 600;
+  color: #4a454a;
+  margin-top: 8px;
+}
+
+.projects .pro-list .lists .content {
+  font-size: 12px;
+  margin-top: 4px;
+  text-align: justify;
+}
+
+/* Achievements */
+.achievements {
+  margin-top: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.achievements .heading {
+  font-size: 20px;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: #4a454a;
+}
+
+.achievements .list {
+  list-style: none;
+  font-size: 14px;
+  margin-bottom: 2px;
+}
+
+.achievements .list li {
+  font-size: 14px;
+  margin-bottom: 2px;
+}
+
+.download-button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 23px;
+  padding: 10px 20px;
+  font-size: 1.2rem;
+  width: 12rem;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}

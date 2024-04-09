@@ -1,0 +1,57 @@
+.landing-page {
+  text-align: center;
+  padding-top: 10vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.big-text {
+  width: 70%;
+  /* background-color: #fff; */
+  font-size: 6rem;
+  font-weight: 700;
+  color: #333; /* Visual appealing color */
+  margin-bottom: 4vh;
+  overflow-wrap: break-word;
+}
+
+.get-started-button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 23px;
+  padding: 10px 20px;
+  font-size: 1.2rem;
+  width: 12rem;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+
+.get-started-button:hover {
+  background-color: #0056b3;
+}
+
+.get-started-button:active {
+  transform: scale(0.95);
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(1.1);
+  }
+}
+
+.get-started-button.animated {
+  animation: pulse 2s infinite alternate;
+}
+
+@media screen and (max-width: 768px) {
+  .big-text {
+    font-size: 3rem;
+  }
+}
