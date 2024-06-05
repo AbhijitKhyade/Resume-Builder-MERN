@@ -18,6 +18,8 @@ import PersonIcon from "@mui/icons-material/Person";
 import HomeIcon from "@mui/icons-material/Home";
 import { useDispatch, useSelector } from "react-redux";
 import { updateProfile } from "../redux/profileSlice";
+import { Link } from 'react-router-dom';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 
 const Profile = () => {
   const dispatch = useDispatch();
@@ -35,6 +37,7 @@ const Profile = () => {
     display: "flex",
     justifyContent: "center",
     flexDirection: "column",
+    backgroundColor: "var(--cardBg)",
   };
 
   return (
@@ -142,7 +145,7 @@ const Profile = () => {
               />
             </Grid>
           </Grid>
-          <Grid container spacing={2} alignItems="center" lg={12}>
+          {/* <Grid container spacing={2} alignItems="center" lg={12}>
             <Grid item md={12} sm={12} xs={12} lg={12}>
               <TextField
                 margin="dense"
@@ -167,7 +170,7 @@ const Profile = () => {
                 }}
               />
             </Grid>
-          </Grid>
+          </Grid> */}
           <Grid container spacing={2} alignItems="center" lg={12}>
             <Grid item md={12} sm={12} xs={12} lg={12}>
               <TextField
@@ -306,9 +309,44 @@ const Profile = () => {
             </Grid>
           </Grid>
         </div>
+
       </CardContent>
+
+      <Grid container spacing={2} alignItems="center" lg={12} >
+        <Grid item md={12} sm={12} xs={12} lg={12} style={containerStyles}>
+          <Link to={'/education'} style={linkStyle}>
+            <h4>Education Section</h4>
+            <ArrowForwardIcon style={iconStyle} />
+          </Link>
+        </Grid>
+      </Grid>
     </div>
   );
 };
 
+const linkStyle = {
+  textDecoration: 'none',
+  color: 'inherit',
+  display: 'flex',
+  justifyContent: 'end',
+  alignItems: 'center',
+  gap: '5px',
+  transition: 'border-radius 0.3s', // Add transition for border-radius
+  borderRadius: '4px', // Initial border-radius
+  padding: '5px', // Add padding for hover effect
+};
+
+const containerStyles = {
+  marginBottom: '20px',
+  display: 'flex',
+  justifyContent: 'end',
+  alignItems: 'center',
+  // backgroundColor: 'crimson',
+  marginTop: '20px',
+  paddingRight: '40px',
+};
+const iconStyle = {
+  verticalAlign: 'middle', // Align icon vertically with text
+  marginLeft: '5px', // Add margin between icon and text
+};
 export default Profile;

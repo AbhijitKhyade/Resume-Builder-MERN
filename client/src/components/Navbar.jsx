@@ -17,6 +17,10 @@ import EditIcon from '@mui/icons-material/Edit';
 import DescriptionIcon from '@mui/icons-material/Description';
 import LogoutIcon from '@mui/icons-material/Logout';
 import '../styles/Navbar.css';
+import { clearEducation } from "../redux/educationSlice";
+import { clearProjects } from "../redux/projectSlice";
+import { clearExperience } from "../redux/experienceSlice";
+import { clearExtraDetails } from "../redux/extraDetailsSlice";
 
 const Navbar = () => {
   const currentUser = useSelector((state) => state.user.currentUser);
@@ -46,7 +50,6 @@ const Navbar = () => {
   };
 
   const handleLogout = async () => {
-    dispatch(logoutUser());
     toast.success("Logout Successful!", {
       position: "top-left",
       autoClose: 1500,
@@ -57,11 +60,18 @@ const Navbar = () => {
       progress: undefined,
       theme: "light",
     });
-  }
+    dispatch(logoutUser());
+    dispatch(clearProfile());
+    dispatch(clearEducation());
+    dispatch(clearProjects());
+    dispatch(clearExperience());
+    dispatch(clearExtraDetails());
 
+  }
+  // console.log(currentUser?.avatar)
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
+      <AppBar position="static" style={{ backgroundColor: 'var(--bgColor)', color: 'black', }}>
         <Toolbar>
           <div className="menu-icon">
             <IconButton
@@ -112,21 +122,28 @@ const Navbar = () => {
             className="logo-text"
             variant="h5"
             component="div"
-            sx={{ flexGrow: 1, marginLeft: "2px", fontWeight: "600" }}
+            sx={{
+              flexGrow: 1,
+              marginLeft: "2px",
+              fontWeight: "600",
+              '@media (max-width: 600px)': {
+                fontSize: "14px" // Adjust the font size as per your requirement
+              }
+            }}
+            style={styles.text}
           >
-            <Link to={'/'} style={{ textDecoration: 'none', color: '#fff' }}> RESUME BUILDER</Link>
+            <Link to={'/'} style={{ textDecoration: 'none', color: '#000' }}> RESUME BUILDER</Link>
           </Typography>
 
           {currentUser ? (
             <>
-              <Link to={'/resume/template=1'} style={{ textDecoration: 'none', color: '#fff' }}>
-                <Button color="inherit">Resume</Button>
+              <Link to={'/templates'} style={{ textDecoration: 'none', color: '#000' }}>
+                <Button color="inherit">Template</Button>
               </Link>
               <Avatar
                 src={currentUser?.avatar}
                 alt="user" sx={styles.avatar}
                 onClick={handleClick}
-
               />
               <Menu
                 anchorEl={anchorEl}
@@ -147,7 +164,7 @@ const Navbar = () => {
               </Menu>
             </>
           ) : (
-            <Link to={'/sign-in'} style={{ textDecoration: 'none', color: '#fff' }}>
+            <Link to={'/sign-in'} style={{ textDecoration: 'none', color: '#000' }}>
               <Button color="inherit">Login</Button>
             </Link>
 
@@ -166,5 +183,9 @@ const styles = {
     width: '30px',
     height: '30px',
     marginLeft: '10px'
+  },
+  text: {
+    margin: 0,
+    fontSize: '24px'
   }
 }

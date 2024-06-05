@@ -19,14 +19,17 @@ const experienceSlice = createSlice({
             return updatedState;
         },
         addExperience: (state) => {
-            state.push({ institute: "", desc: "" });
+            state.push({ role: "", institute: "", start_date: "", end_date: "", desc: "" });
         },
         deleteExperience: (state, action) => {
             state.splice(action.payload, 1);
         },
+        clearExperience: (state) => {
+            return initialState; // Reset to initial state
+        },
     },
 });
 
-export const { updateExperience, addExperience, deleteExperience } = experienceSlice.actions;
+export const { updateExperience, addExperience, deleteExperience, clearExperience } = experienceSlice.actions;
 export const selectProject = (state) => state.experience;
 export default experienceSlice.reducer;

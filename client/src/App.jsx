@@ -15,6 +15,11 @@ import 'react-toastify/dist/ReactToastify.css';
 import LandingPage from './pages/LandingPage';
 import UserProfile from './pages/UserProfile';
 import Templates from './pages/Templates';
+import Education from './components/Education';
+import Projects from './components/Projects';
+import Experience from './components/Experience';
+import ExtraDetails from './components/ExtraDetails';
+import ResumeLayout from './components/ResumeLayout';
 
 function App() {
   return (
@@ -29,7 +34,14 @@ function App() {
               <Route element={<Layout />}>
                 <Route path='/user-profile' element={<UserProfile />} />
                 <Route path='/templates' element={<Templates />} />
-                <Route path='/create-resume' element={<Home />} />
+                {/* <Route path='/create-resume' element={<Home />} /> */}
+                <Route element={<ResumeLayout />}>
+                  <Route path='/profile' element={<Profile />} />
+                  <Route path='/education' element={<Education />} />
+                  <Route path='/projects' element={<Projects />} />
+                  <Route path='/experience' element={<Experience />} />
+                  <Route path='/extraDetails' element={<ExtraDetails />} />
+                </Route>
                 <Route path='/resume/:template' element={<Resume />} />
                 <Route path='/contact-us' element={<Contact />} />
               </Route>

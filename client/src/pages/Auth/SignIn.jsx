@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { app } from '../../firebase';
 import { GoogleAuthProvider, getAuth, signInWithPopup } from 'firebase/auth';
@@ -9,6 +8,8 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { BASE_URL } from '../../api';
+import { motion } from 'framer-motion';
+
 export default function SignIn() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -46,11 +47,54 @@ export default function SignIn() {
             dispatch(signInFailure(error.message));
         }
     }
+
+    const Bubble = ({ size, color }) => {
+        const generateRandomPosition = () => ({
+            x: Math.random() * (window.innerWidth - size),
+            y: Math.random() * (window.innerHeight - size)
+        });
+
+        const transition = {
+            duration: 17,  // Increased duration for slower movement
+            repeat: Infinity,
+            repeatType: "mirror",
+            ease: "easeInOut"
+        };
+
+        return (
+            <motion.div
+                initial={generateRandomPosition()}
+                animate={generateRandomPosition()}
+                transition={transition}
+                style={{
+                    position: 'absolute',
+                    width: size,
+                    height: size,
+                    backgroundColor: color,
+                    borderRadius: '50%',
+                    border: '2px solid rgba(0, 0, 0, 0.1)'
+                }}
+            />
+        );
+    };
+
+
+    const bubbles = Array.from({ length: 15 }).map((_, index) => (
+        <Bubble
+            key={index}
+            size={Math.random() * 100 + 30}
+            color={`hsla(${Math.random() * 360}, 100%, 80%, 0.7)`}
+        />
+    ));
+
     return (
         <div style={styles.container}>
-            <button style={styles.button}>
+            <div style={{border:'1px solid black', position:'relative' , marginTop:'-600px', marginLeft:'-600px'}}>
+                {bubbles}
+            </div>
+            <button style={styles.button} onClick={handleGoogle} >
                 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAJKSURBVHgBvZTPaxNBFMffm93VpI2QQOqpyuhFBKFbUKmguIt6j9568z+Iihd/0YiCHgTTu2BzEKkIyUkvtRk9iUa7/gVdD2o9SFZaadP9Mc7uJtvNtlmtQr+w7OzbN595b+bNQxigtn58zEGvBIglAE4BMC/Mhhib3OWNvexDbat5mDQsamo+R+QpAboEKeIcTAUcrTC/8Hkg8JumUokoTUSg8JfquDA+yt4bvW85HtlWMARucUBTDC3x+GmrsTAro6xlxP0j4DCRHm6KTExY9nLTBxizNrKYoLLk1sW/xsh86zYkFKS8+hKozehipzWysZKHaqH57hNsUySYvEsuZ899gczJpSiyf4EFrBCAwb5kTi2BvH8F1p4cnkk66vfXx8Bz82mw5vXs6yBle05ud+vMpzPlrKMnnc/cXWlyBC0NCHyYknCEqStvR10gt2K2/4L3Ioxq6aNdVNXHpU1QF+Ey8bgef5ADi/t4jvUzPBTkTByMNrt6EKq/joA8xMvC2ldj7Eaur4C1e22KnkJ7V028DVYpWEGEDpFrd5bVABaIY+XYs/OnIU2uUhYQGn1zqRqlnNXXzBfr+6pxf+4RdnT2wlSS42/HiUcP6gQh1jzQfHUzW+tG2nWsl/JKR1rg0H/9RKlYYq966UZ3mdhFGPp6DYhTBH8/527tYX1AXxNPS9RFqZmEDpIPzXy/cvHN1UNRbyRxh7eTDdPe7Y6LVWb+BBNdyPTkH3ocFtoHKIyWlEXrUoWXChzyInJTdCQDPJxuTT5nsBP6DUkW1QHQYUIiAAAAAElFTkSuQmCC" alt="Google Logo" style={styles.icon} />
-                <p style={styles.text} onClick={handleGoogle}>Continue With Google</p>
+                <p style={styles.text}>Continue With Google</p>
             </button>
         </div>
     );
@@ -58,10 +102,12 @@ export default function SignIn() {
 
 const styles = {
     container: {
+        position: 'relative',
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        height: '89vh',
+        height: '85vh',
+        // overflow: 'hidden',
     },
     button: {
         display: 'flex',
@@ -69,12 +115,13 @@ const styles = {
         alignItems: 'center',
         padding: '12px 21px',
         borderRadius: '5px',
+        marginLeft:'600px',
         border: 'black 2px solid',
         backgroundColor: '#fff',
         color: '#fff',
         cursor: 'pointer',
         width: '320px',
-
+        zIndex: 1,
     },
     text: {
         fontSize: '18px',

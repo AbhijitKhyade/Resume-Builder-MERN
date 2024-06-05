@@ -2,10 +2,16 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-    skills: [],
-    hobbies: [],
+    skills: {
+        languages: [],
+        web: [],
+        webFrameworks: [],
+        databases: [],
+        other: [],
+    },
     achievements: [],
     extraCoCurricular: [],
+    coreSubjects: [],
 };
 
 const extraDetailsSlice = createSlice({
@@ -13,26 +19,37 @@ const extraDetailsSlice = createSlice({
     initialState,
     reducers: {
         updateSkills: (state, action) => {
-            const { index, value } = action.payload;
-            state.skills[index] = value;
+            const { type, index, value } = action.payload;
+            return {
+                ...state,
+                skills: {
+                    ...state.skills,
+                    [type]: state.skills[type].map((skill, i) =>
+                        i === index ? value : skill
+                    )
+                }
+            };
         },
-        addSkills: (state) => {
-            state.skills.push("");
+
+        addSkills: (state, action) => {
+            const { type } = action.payload;
+            return {
+                ...state,
+                skills: {
+                    ...state.skills,
+                    [type]: [...(state.skills[type] || []), ""]
+                }
+            };
         },
-        deleteSkill: (state, action) => {
-            const index = action.payload;
-            state.skills.splice(index, 1);
-        },
-        updateHobbies: (state, action) => {
-            const { index, value } = action.payload;
-            state.hobbies[index] = value;
-        },
-        addHobbies: (state) => {
-            state.hobbies.push("");
-        },
-        deleteHobbies: (state, action) => {
-            const index = action.payload;
-            state.hobbies.splice(index, 1);
+        deleteSkills: (state, action) => {
+            const { type, index } = action.payload;
+            return {
+                ...state,
+                skills: {
+                    ...state.skills,
+                    [type]: state.skills[type].filter((_, i) => i !== index)
+                }
+            };
         },
         updateAchievements: (state, action) => {
             const { index, value } = action.payload;
@@ -56,22 +73,39 @@ const extraDetailsSlice = createSlice({
             const index = action.payload;
             state.extraCoCurricular.splice(index, 1);
         },
+        updateCoreSubjects: (state, action) => {
+            const { index, value } = action.payload;
+            state.coreSubjects[index] = value;
+        },
+        deleteCoreSubjects: (state, action) => {
+            const index = action.payload;
+            state.coreSubjects.splice(index, 1);
+        },
+        addCoreSubjects: (state, _action) => {
+            state.coreSubjects.push(""); // Add an empty string as a new core subject
+        },
+        clearExtraDetails: (state) => {
+            return initialState; // Reset to initial state
+        },
+
+
     },
 });
 
 export const {
     updateSkills,
     addSkills,
-    updateHobbies,
-    addHobbies,
     updateAchievements,
     addAchievements,
     updateExtraCoCurricular,
     addExtraCoCurricular,
-    deleteSkill,
-    deleteHobbies,
+    deleteSkills,
     deleteAchievements,
-    deleteExtraCoCurricular
+    deleteExtraCoCurricular,
+    updateCoreSubjects,
+    deleteCoreSubjects,
+    addCoreSubjects,
+    clearExtraDetails
 } = extraDetailsSlice.actions;
 export const selectExtraDetails = (state) => state.extraDetails;
 export default extraDetailsSlice.reducer;

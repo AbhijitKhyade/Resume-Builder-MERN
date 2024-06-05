@@ -4,6 +4,8 @@ const dotenv = require('dotenv');
 
 const mongoDB = require('./config/db');
 const authRoutes = require('./routes/auth.route');
+const userRoutes = require('./routes/user.route');
+const resumeRoutes = require('./routes/resume.route');
 
 const app = express();
 
@@ -19,6 +21,8 @@ app.use(express.json());
 
 //routes
 app.use('/api/auth', authRoutes);
+app.use('/api/user', userRoutes);
+app.use('/api/data', resumeRoutes);
 
 const PORT = process.env.PORT || 8080;
 

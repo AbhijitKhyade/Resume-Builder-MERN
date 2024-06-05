@@ -12,14 +12,17 @@ const projectSlice = createSlice({
             state[index] = { ...state[index], [field]: value };
         },
         addProject: (state) => {
-            state.push({ title: "", description: "", link: "" });
+            state.push({ title: "", description: "", link: "", techStack: "" });
         },
         deleteProject: (state, action) => {
             return state.filter((project, index) => index !== action.payload);
         },
+        clearProjects: (state) => {
+            return initialState; // Reset to initial state
+        },
     },
 });
 
-export const { updateProject, addProject, deleteProject } = projectSlice.actions;
+export const { updateProject, addProject, deleteProject, clearProjects } = projectSlice.actions;
 export const selectProject = (state) => state.project;
 export default projectSlice.reducer;

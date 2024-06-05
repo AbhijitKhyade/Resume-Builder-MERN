@@ -17,6 +17,9 @@ import GradeIcon from "@mui/icons-material/Grade";
 
 import { useDispatch, useSelector } from "react-redux";
 import { updateEducation } from "../redux/educationSlice";
+import { Link } from 'react-router-dom';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 const Education = () => {
   const dispatch = useDispatch();
@@ -47,6 +50,9 @@ const Education = () => {
   ];
   const otherFields = ["B.E.", "B.Tech", "BCA", "Bsc", "MBA", "M.Tech"];
 
+  const higherCollegeBoard = ["Maharashtra State Board", "CBSE", "ICSE", "Diploma"];
+  const schoolBoard = ["Maharashtra State Board", "CBSE", "ICSE"];
+
   return (
     <div style={containerStyle}>
       <Card>
@@ -61,14 +67,14 @@ const Education = () => {
       <CardContent>
         <div>
           {/* College Details */}
-          <Grid container spacing={2} alignItems="center" lg={12} m={1}>
+          <Grid container spacing={1} alignItems="center" lg={12} >
             <div>
               <Typography variant="h6" align="left">
                 College/University Details
               </Typography>
             </div>
             {/* Row 1 */}
-            <Grid container spacing={2} alignItems="center" lg={12} mb={2}>
+            <Grid container spacing={1} alignItems="center" lg={12} mb={2}>
               <Grid item md={4} sm={12} xs={12} lg={4}>
                 <TextField
                   margin="dense"
@@ -106,6 +112,7 @@ const Education = () => {
                   <MenuItem value="S.E">S.E</MenuItem>
                   <MenuItem value="T.E">T.E</MenuItem>
                   <MenuItem value="B.E">B.E</MenuItem>
+                  <MenuItem value="">Clear Selection</MenuItem> {/* Add this line */}
                 </TextField>
               </Grid>
               <Grid item md={4} sm={12} xs={12} lg={4}>
@@ -128,11 +135,12 @@ const Education = () => {
                       {field}
                     </MenuItem>
                   ))}
+                  <MenuItem value="">Clear Selection</MenuItem> {/* Add this line */}
                 </TextField>
               </Grid>
             </Grid>
             {/* Row 2 */}
-            <Grid container spacing={2} alignItems="center" lg={12} mb={2}>
+            <Grid container spacing={1} alignItems="center" lg={12} mb={2}>
               <Grid item md={4} sm={12} xs={12} lg={4}>
                 <TextField
                   select
@@ -153,6 +161,7 @@ const Education = () => {
                       {field}
                     </MenuItem>
                   ))}
+                  <MenuItem value="">Clear Selection</MenuItem> {/* Add this line */}
                 </TextField>
               </Grid>
               <Grid item md={4} sm={12} xs={12} lg={4}>
@@ -183,6 +192,7 @@ const Education = () => {
                       {year}
                     </MenuItem>
                   ))}
+                  <MenuItem value="">Clear Selection</MenuItem>
                 </TextField>
               </Grid>
               <Grid item md={4} sm={12} xs={12} lg={4}>
@@ -213,11 +223,12 @@ const Education = () => {
                       {year}
                     </MenuItem>
                   ))}
+                  <MenuItem value="">Clear Selection</MenuItem>
                 </TextField>
               </Grid>
             </Grid>
             {/* Row 3 */}
-            <Grid container spacing={2} alignItems="center" lg={12} mb={2}>
+            <Grid container spacing={1} alignItems="center" lg={12} mb={2}>
               <Grid item md={6} sm={12} xs={12} lg={6}>
                 <TextField
                   margin="dense"
@@ -261,14 +272,14 @@ const Education = () => {
             </Grid>
           </Grid>
           {/* 12th Details */}
-          <Grid container spacing={2} alignItems="center" lg={12} m={1}>
+          <Grid container spacing={1} alignItems="center" lg={12} mt={2}>
             <div>
               <Typography variant="h6" align="left">
                 Higher secondary education (12th) Details
               </Typography>
             </div>
             {/* Row 1 */}
-            <Grid container spacing={2} alignItems="center" lg={12}>
+            <Grid container spacing={1} alignItems="center" lg={12}>
               <Grid item md={4} sm={12} xs={12} lg={4}>
                 <TextField
                   margin="dense"
@@ -319,6 +330,7 @@ const Education = () => {
                       {year}
                     </MenuItem>
                   ))}
+                  <MenuItem value="">Clear Selection</MenuItem> {/* Add this line */}
                 </TextField>
               </Grid>
               <Grid item md={4} sm={12} xs={12} lg={4}>
@@ -349,12 +361,13 @@ const Education = () => {
                       {year}
                     </MenuItem>
                   ))}
+                  <MenuItem value="">Clear Selection</MenuItem> {/* Add this line */}
                 </TextField>
               </Grid>
             </Grid>
             {/* Row 2 */}
-            <Grid container spacing={2} alignItems="center" lg={12}>
-              <Grid item md={6} sm={12} xs={12} lg={6}>
+            <Grid container spacing={1} alignItems="center" lg={12}>
+              <Grid item md={4} sm={12} xs={12} lg={4}>
                 <TextField
                   margin="dense"
                   variant="outlined"
@@ -375,7 +388,7 @@ const Education = () => {
                   onChange={handleChange}
                 />
               </Grid>
-              <Grid item md={6} sm={12} xs={12} lg={6}>
+              <Grid item md={4} sm={12} xs={12} lg={4}>
                 <TextField
                   margin="dense"
                   variant="outlined"
@@ -396,17 +409,41 @@ const Education = () => {
                   onChange={handleChange}
                 />
               </Grid>
+              <Grid item md={4} sm={12} xs={12} lg={4}>
+                <TextField
+                  select
+                  margin="dense"
+                  variant="outlined"
+                  name="board1"
+                  placeholder="Select Board"
+                  label="Select Board"
+                  style={{ width: "100%" }}
+                  required
+                  value={education.board1}
+                  onChange={handleChange}
+                >
+                  <MenuItem value="" disabled>
+                    Select Board
+                  </MenuItem>
+                  {higherCollegeBoard.map((field) => (
+                    <MenuItem key={field} value={field}>
+                      {field}
+                    </MenuItem>
+                  ))}
+                  <MenuItem value="">Clear Selection</MenuItem> {/* Add this line */}
+                </TextField>
+              </Grid>
             </Grid>
           </Grid>
           {/* 10th Details */}
-          <Grid container spacing={2} alignItems="center" lg={12} m={1}>
+          <Grid container spacing={1} alignItems="center" lg={12} mt={2}>
             <div>
               <Typography variant="h6" align="left">
                 Secondary education (10th) Details
               </Typography>
             </div>
             {/* Row 1 */}
-            <Grid container spacing={2} alignItems="center" lg={12}>
+            <Grid container spacing={1} alignItems="center" lg={12}>
               <Grid item md={4} sm={12} xs={12} lg={4}>
                 <TextField
                   margin="dense"
@@ -457,6 +494,7 @@ const Education = () => {
                       {year}
                     </MenuItem>
                   ))}
+                  <MenuItem value="">Clear Selection</MenuItem> {/* Add this line */}
                 </TextField>
               </Grid>
               <Grid item md={4} sm={12} xs={12} lg={4}>
@@ -487,12 +525,13 @@ const Education = () => {
                       {year}
                     </MenuItem>
                   ))}
+                  <MenuItem value="">Clear Selection</MenuItem> {/* Add this line */}
                 </TextField>
               </Grid>
             </Grid>
             {/* Row 2 */}
-            <Grid container spacing={2} alignItems="center" lg={12}>
-              <Grid item md={6} sm={12} xs={12} lg={6}>
+            <Grid container spacing={1} alignItems="center" lg={12}>
+              <Grid item md={4} sm={12} xs={12} lg={4}>
                 <TextField
                   margin="dense"
                   variant="outlined"
@@ -513,7 +552,7 @@ const Education = () => {
                   }}
                 />
               </Grid>
-              <Grid item md={6} sm={12} xs={12} lg={6}>
+              <Grid item md={4} sm={12} xs={12} lg={4}>
                 <TextField
                   margin="dense"
                   variant="outlined"
@@ -534,12 +573,76 @@ const Education = () => {
                   }}
                 />
               </Grid>
+              <Grid item md={4} sm={12} xs={12} lg={4}>
+                <TextField
+                  select
+                  margin="dense"
+                  variant="outlined"
+                  name="board2"
+                  placeholder="Select Board"
+                  label="Select Board"
+                  style={{ width: "100%" }}
+                  required
+                  value={education.board2}
+                  onChange={handleChange}
+                >
+                  <MenuItem value="" disabled>
+                    Select Board
+                  </MenuItem>
+                  {schoolBoard.map((field) => (
+                    <MenuItem key={field} value={field}>
+                      {field}
+                    </MenuItem>
+                  ))}
+                  <MenuItem value="">Clear Selection</MenuItem> {/* Add this line */}
+                </TextField>
+              </Grid>
             </Grid>
           </Grid>
         </div>
       </CardContent>
+
+      <Grid container spacing={2} alignItems="center" lg={12} >
+        <Grid item md={12} sm={12} xs={12} lg={12} style={containerStyles}>
+          <Link to={'/profile'} style={linkStyle}>
+            <ArrowBackIcon style={iconStyle} />
+            <h4>Profile Section</h4>
+          </Link>
+          <Link to={'/projects'} style={linkStyle}>
+            <h4>Project Section</h4>
+            <ArrowForwardIcon style={iconStyle} />
+          </Link>
+        </Grid>
+      </Grid>
     </div>
   );
+};
+
+const linkStyle = {
+  textDecoration: 'none',
+  color: 'inherit',
+  display: 'flex',
+  justifyContent: 'end',
+  alignItems: 'center',
+  gap: '5px',
+  transition: 'border-radius 0.3s', // Add transition for border-radius
+  borderRadius: '4px', // Initial border-radius
+  padding: '5px', // Add padding for hover effect
+};
+
+const containerStyles = {
+  marginBottom: '20px',
+  display: 'flex',
+  justifyContent: 'space-between',
+  alignItems: 'center',
+  // backgroundColor: 'crimson',
+  marginTop: '20px',
+  paddingRight: '40px',
+  paddingLeft: '40px',
+};
+const iconStyle = {
+  verticalAlign: 'middle', // Align icon vertically with text
+  marginLeft: '5px', // Add margin between icon and text
 };
 
 export default Education;

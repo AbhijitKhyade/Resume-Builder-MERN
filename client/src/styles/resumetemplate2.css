@@ -1,0 +1,341 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Arial", sans-serif;
+  color: #4a454a;
+  background-color: #ffecd6;
+  height: 100vh;
+  overflow-x: hidden;
+}
+
+.resume-container {
+  display: flex;
+  justify-content: space-between;
+  padding: 5px;
+}
+
+/* Title */
+
+.user-name {
+  width: 100%;
+  text-align: center;
+  color: #4a454a;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  /* background-color: crimson; */
+}
+
+.user-details {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 4px;
+  font-size: small;
+  /* background-color: crimson; */
+  flex-wrap: wrap;
+}
+
+.user-details .data {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  font-size: 0.9rem;
+}
+
+.user-details .data #ic {
+  font-size: 0.2rem;
+}
+
+/* Links */
+
+a {
+  color: #4a454a;
+  text-decoration: none;
+}
+
+.link-coding .linked {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  font-size: 1rem;
+  color: #4a454a;
+}
+
+.resume-contents {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.resume-contents .expr {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  width: 100%;
+}
+
+.resume-contents .expr .expr-title {
+  font-size: 1.3rem;
+  font-weight: 600;
+}
+
+.expr-section .role-date {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.expr-section .role-date #role {
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.expr-section .role-date #date {
+  font-size: 0.9rem;
+  color: #4a454a;
+}
+
+.expr-section .company {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #4a454a;
+  font-style: italic;
+}
+
+.expr-section .expr-desc {
+  font-size: 1rem;
+  text-align: justify;
+  padding-left: 20px;
+  margin-bottom: 10px;
+}
+
+.project-details {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: 10px;
+}
+
+.project-details .project-title {
+  font-size: 1.3rem;
+  font-weight: 600;
+}
+
+.project-details .project-section {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.project-details .project-section .project-name {
+  font-size: 1.1rem;
+  font-weight: 700;
+  display: flex;
+  gap: 5px;
+}
+.project-details .project-section .project-name #link-icon a {
+  font-size: 1rem;
+  color: #4a454a;
+  text-decoration: none;
+  cursor: pointer;
+}
+.project-details .project-section .project-name #link-icon {
+  font-size: 1rem;
+  color: #4a454a;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.project-details .project-section .project-name #tech-stack {
+  font-size: 0.9rem;
+  color: #4a454a;
+  font-style: italic;
+  font-weight: 400;
+}
+
+.project-details .project-section .project-desc {
+  font-size: 1rem;
+  text-align: justify;
+  padding-left: 20px;
+  margin-bottom: 5px;
+}
+
+/* Education */
+.edu-section {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-top: 10px;
+}
+
+.edu-section .edu-title {
+  font-size: 1.3rem;
+  font-weight: 600;
+}
+
+.edu-section .clg-section-1 {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 5px;
+}
+
+.edu-section .clg-section-1 .info-1 .clg-name {
+  font-size: 1.1rem;
+  font-weight: 700;
+  /* color: #4a 454a; */
+}
+.edu-section .clg-section-1 .info-1 .degree {
+  font-size: 1rem;
+  /* font-weight: 600; */
+  /* color: #4a454a; */
+  /* font-style: italic; */
+}
+
+.edu-section .clg-section-1 .info-2 {
+  font-size: 0.9rem;
+  color: #4a454a;
+}
+
+.edu-section .clg-section-2 {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 5px;
+}
+
+.edu-section .clg-section-2 .info-1 .clg-name {
+  font-size: 1.1rem;
+  font-weight: 700;
+  /* color: #4a454a; */
+}
+
+.edu-section .clg-section-2 .info-1 .degree {
+  font-size: 1rem;
+  /* font-weight: 600; */
+  /* color: #4a454a; */
+  /* font-style: italic; */
+}
+
+.edu-section .clg-section-2 .info-2 {
+  font-size: 0.9rem;
+  color: #4a454a;
+}
+
+.edu-section .clg-section-3 {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 5px;
+}
+
+.edu-section .clg-section-3 .info-1 .school-name {
+  font-size: 1.1rem;
+  font-weight: 700;
+  /* color: #4a454a; */
+}
+
+.edu-section .clg-section-3 .info-1 .degree {
+  font-size: 1rem;
+  /* font-weight: 600; */
+  /* color: #4a454a; */
+  /* font-style: italic; */
+}
+
+.edu-section .clg-section-3 .info-2 {
+  font-size: 0.9rem;
+  color: #4a454a;
+}
+
+/* Skills */
+.skill-section {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-top: 10px;
+}
+
+.skill-section .skill-title {
+  font-size: 1.3rem;
+  font-weight: 600;
+}
+.skill-section .skill-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  font-size: 0.9rem;
+}
+.skill-section .skill-name {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #4a454a;
+}
+
+.skill-section .language-skill {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  font-size: 0.9rem;
+}
+
+.skill-section .web-skill {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  font-size: 0.9rem;
+}
+.skill-section .webframework-skill {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  font-size: 0.9rem;
+}
+.skill-section .databases-skill {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  font-size: 0.9rem;
+}
+.skill-section .other-skill {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  font-size: 0.9rem;
+}
+
+/* Achievements and ExtraCurricular */
+.achievement-extracurricular {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  margin-top: 10px;
+}
+
+.achievement-extracurricular .achieve-title {
+  font-size: 1.3rem;
+  font-weight: 600;
+}
+
+.achievement-extracurricular .achieve-list {
+  font-size: 1rem;
+  text-align: justify;
+  padding-left: 20px;
+}
+
+.download-button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 23px;
+  padding: 10px 20px;
+  font-size: 1.2rem;
+  width: 12rem;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
