@@ -12,7 +12,7 @@ import "../../styles/resumetemplate1.css";
 import { Link } from "react-router-dom";
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-
+import moment from "moment";
 import html2canvas from 'html2canvas';
 import { jsPDF } from 'jspdf';
 // import { saveAs } from "file-saver";
