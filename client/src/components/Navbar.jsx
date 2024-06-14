@@ -63,7 +63,7 @@ const Navbar = () => {
     dispatch(clearExperience());
     dispatch(clearExtraDetails());
   };
-  // console.log(currentUser)
+  console.log(currentUser);
   return (
     <nav className="nav-container">
       <AppBar position="static" style={{ backgroundColor: 'var(--bgColor)', color: 'black', }}>
