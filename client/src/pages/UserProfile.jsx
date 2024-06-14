@@ -114,21 +114,29 @@ export default function UserProfile() {
       onClick={toggleDrawer(false)}
       onKeyDown={toggleDrawer(false)}
     >
-      <List>
-        {sidebarLinks.map((link, index) => (
-          <Link
-            key={index}
-            className="sidebar-link"
-            to={link.path}
-            onClick={link.text === 'Logout' ? link.action : null}
-          >
-            <ListItem button>
-              <ListItemIcon className='icon'>{link.icon}</ListItemIcon>
-              <ListItemText primary={link.text} />
-            </ListItem>
-          </Link>
-        ))}
-      </List>
+      {currentUser ? (
+        <>
+          <List>
+            {sidebarLinks.map((link, index) => (
+              <Link
+                key={index}
+                className="sidebar-link"
+                to={link.path}
+                onClick={link.text === 'Logout' ? link.action : null}
+              >
+                <ListItem button>
+                  <ListItemIcon className='icon'>{link.icon}</ListItemIcon>
+                  <ListItemText primary={link.text} />
+                </ListItem>
+              </Link>
+            ))}
+          </List>
+        </>
+      ) : (
+        <>
+          <h3>Login Please!</h3>
+        </>
+      )}
     </Box>
   );
 
