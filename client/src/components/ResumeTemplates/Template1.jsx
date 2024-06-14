@@ -523,7 +523,7 @@ export default function Template1() {
         </Button>
         <Feedback open={open} handleClose={handleClose} />
 
-        <Box sx={{ position: 'relative', top: '-1000px', left: '1160px', width: '100%', }} className='return-links'>
+        {/* <Box sx={{ position: 'relative', top: '-1000px', left: '1160px', width: '100%', }} className='return-links'>
           <div style={{ display: 'flex', flexDirection: 'column' }}>
             {returnLinks && Object.keys(returnLinks).map((key, index) => (
               <Link to={returnLinks[key]} key={index} className="return-link">
@@ -539,7 +539,7 @@ export default function Template1() {
               </Link>
             ))}
           </div>
-        </Box>
+        </Box> */}
 
         {/* <Box sx={{ position: 'fixed', top: '100px', left: '10px', width: '100%', zIndex: 999 }} className='return-links'>
           <div style={{ display: 'flex', flexDirection: 'column' }}>
