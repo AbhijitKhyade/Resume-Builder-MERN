@@ -83,32 +83,39 @@ const Navbar = () => {
             open={isDrawerOpen}
             onClose={() => setIsDrawerOpen(false)}
           >
-            <List>
-              <ListItem button component={Link} to="/" onClick={handleClose}>
-                <ListItemIcon>
-                  <HomeIcon />
-                </ListItemIcon>
-                <ListItemText primary="Home" />
-              </ListItem>
-              <ListItem button component={Link} to="/create-resume" onClick={handleClose}>
-                <ListItemIcon>
-                  <EditIcon />
-                </ListItemIcon>
-                <ListItemText primary="Edit Resume" />
-              </ListItem>
-              <ListItem button component={Link} to="/templates" onClick={handleClose}>
-                <ListItemIcon>
-                  <DescriptionIcon />
-                </ListItemIcon>
-                <ListItemText primary="Templates" />
-              </ListItem>
-              <ListItem button onClick={handleLogout} >
-                <ListItemIcon>
-                  <LogoutIcon />
-                </ListItemIcon>
-                <ListItemText primary="Logout" />
-              </ListItem>
-            </List>
+            {currentUser ? (
+              <>
+                <List>
+                  <ListItem button component={Link} to="/" onClick={handleClose}>
+                    <ListItemIcon>
+                      <HomeIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Home" />
+                  </ListItem>
+                  <ListItem button component={Link} to="/create-resume" onClick={handleClose}>
+                    <ListItemIcon>
+                      <EditIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Edit Resume" />
+                  </ListItem>
+                  <ListItem button component={Link} to="/templates" onClick={handleClose}>
+                    <ListItemIcon>
+                      <DescriptionIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Templates" />
+                  </ListItem>
+                  <ListItem button onClick={handleLogout} >
+                    <ListItemIcon>
+                      <LogoutIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Logout" />
+                  </ListItem>
+                </List>
+              </>
+            ) : (
+              <>
+                <h3>Login Please!</h3>
+              </>)}
           </Drawer>
 
           <img className="logo" src={logo} alt="resume" width={"40px"} height={"40px"} />
