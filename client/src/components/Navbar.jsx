@@ -114,7 +114,9 @@ const Navbar = () => {
               </>
             ) : (
               <>
-                <h3>Login Please!</h3>
+                <div className="drawer-div">
+                  <h3>Login Please!</h3>
+                </div>
               </>)}
           </Drawer>
 

@@ -134,7 +134,9 @@ export default function UserProfile() {
         </>
       ) : (
         <>
-          <h3>Login Please!</h3>
+          <div className="drawer-div">
+            <h3>Login Please!</h3>
+          </div>
         </>
       )}
     </Box>

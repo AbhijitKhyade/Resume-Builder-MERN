@@ -52,6 +52,22 @@ nav-container {
   color: #000;
 }
 
+.drawer-div {
+  width: 250px;
+  background-color: var(--bgColor);
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  padding-top: 60px;
+  transition: transform 0.3s ease-in-out;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding-left: 10px;
+}
+
 @media screen and (max-width: 768px) {
   .logo {
     display: none;
