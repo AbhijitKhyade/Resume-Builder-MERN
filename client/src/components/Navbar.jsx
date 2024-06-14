@@ -63,7 +63,7 @@ const Navbar = () => {
     dispatch(clearExperience());
     dispatch(clearExtraDetails());
   };
-
+  // console.log(currentUser)
   return (
     <nav className="nav-container">
       <AppBar position="static" style={{ backgroundColor: 'var(--bgColor)', color: 'black', }}>
@@ -83,7 +83,7 @@ const Navbar = () => {
             open={isDrawerOpen}
             onClose={() => setIsDrawerOpen(false)}
           >
-            {currentUser ? (
+            {currentUser !== null ? (
               <>
                 <List>
                   <ListItem button component={Link} to="/" onClick={handleClose}>
