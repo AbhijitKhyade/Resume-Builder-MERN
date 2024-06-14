@@ -1,57 +1,93 @@
-.landing-page {
-  text-align: center;
-  padding-top: 10vh;
+.box-container {
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
-}
-
-.big-text {
-  width: 70%;
-  /* background-color: #fff; */
-  font-size: 6rem;
-  font-weight: 700;
-  color: #333; /* Visual appealing color */
-  margin-bottom: 4vh;
-  overflow-wrap: break-word;
-}
-
-.get-started-button {
-  background-color: #007bff;
+  justify-content: center;
   color: #fff;
-  border: none;
-  border-radius: 23px;
-  padding: 10px 20px;
-  font-size: 1.2rem;
-  width: 12rem;
-  cursor: pointer;
-  transition: all 0.3s ease-in-out;
+  text-align: center;
+  padding: 4px;
+  min-height: 91vh;
+  position: relative;
 }
 
-.get-started-button:hover {
-  background-color: #0056b3;
+.image-style-1 {
+  width: 450px;
+  height: 380px;
+  border-radius: 50%;
+  opacity: 0.9;
 }
 
-.get-started-button:active {
-  transform: scale(0.95);
+.image-container-1 {
+  position: absolute;
+  right: 5px;
+  top: -30px;
+  z-index: -100;
+  transform: rotate(-4deg);
 }
 
-@keyframes pulse {
-  0% {
-    transform: scale(1);
-  }
-  100% {
-    transform: scale(1.1);
-  }
+.image-style-2 {
+  width: 450px;
+  height: 380px;
+  border-radius: 8px;
+  opacity: 0.9;
 }
 
-.get-started-button.animated {
-  animation: pulse 2s infinite alternate;
+.image-container-2 {
+  position: absolute;
+  bottom: -15px;
+  left: -14px;
+  z-index: -100;
+  transform: rotate(-4deg);
 }
 
+.image-style-3 {
+  width: 680px;
+  height: 700px;
+  border-radius: 8px;
+  opacity: 0.7;
+}
+
+.image-container-3 {
+  position: absolute;
+  left: 28%;
+  top: -6%;
+  z-index: -300;
+  transform: rotate(-15deg);
+}
+
+.overlay-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  width: 100%;
+  color: #000;
+  z-index: 10;
+}
+
+/* Media Queries for Responsive Adjustments */
 @media screen and (max-width: 768px) {
-  .big-text {
-    font-size: 3rem;
+  .img-container {
+    position: relative;
+  }
+  .image-style-1,
+  .image-style-2,
+  .image-style-3 {
+    width: 100%; /* Make images full width */
+    height: auto; /* Maintain aspect ratio */
+    border-radius: 0; /* Remove border radius */
+    border-radius: 50%;
+    transform: rotate(-15deg);
+    z-index: -100;
+  }
+
+  .image-container-1,
+  .image-container-2,
+  .image-container-3 {
+    z-index: -100;
+    position: static; /* Remove absolute positioning */
+    transform: none; /* Remove rotation */
+    margin: 10px auto; /* Center-align images with some margin */
   }
 }

@@ -1,5 +1,55 @@
+nav-container {
+  width: 100%;
+}
 .menu-icon {
   display: none;
+}
+.resume-builder-link {
+  text-decoration: none;
+  color: #000;
+}
+
+.app-bar {
+  background-color: var(--bgColor);
+  color: black;
+}
+
+.menu-icon {
+  margin-right: 10px;
+}
+
+.logo {
+  margin-right: 10px;
+}
+
+.logo-text {
+  margin-left: 2px;
+  font-weight: 600;
+}
+
+.resume-builder-link {
+  text-decoration: none;
+  color: #000;
+}
+
+.template-link {
+  text-decoration: none;
+  color: #000;
+}
+
+.avatar {
+  cursor: pointer;
+  width: 15px;
+  height: 2px;
+  margin-left: 10px;
+  /* padding: 5px; */
+  border-radius: 50%;
+  background-color: red;
+}
+
+.login-link {
+  text-decoration: none;
+  color: #000;
 }
 
 @media screen and (max-width: 768px) {
@@ -17,5 +67,9 @@
     top: 8px;
     font-size: 16px;
     font-weight: 600;
+  }
+  .resume-builder-link {
+    font-size: 21px;
+    padding-left: 5px;
   }
 }

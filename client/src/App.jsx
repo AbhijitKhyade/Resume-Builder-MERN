@@ -20,6 +20,9 @@ import Projects from './components/Projects';
 import Experience from './components/Experience';
 import ExtraDetails from './components/ExtraDetails';
 import ResumeLayout from './components/ResumeLayout';
+import ErrorPage from './pages/ErrorPage';
+// import Demo from './pages/Demo';
+
 
 function App() {
   return (
@@ -44,6 +47,8 @@ function App() {
                 </Route>
                 <Route path='/resume/:template' element={<Resume />} />
                 <Route path='/contact-us' element={<Contact />} />
+                {/* <Route path='/demo' element={<Demo />} /> */}
+                <Route path='*' element={<ErrorPage />} />
               </Route>
             </Routes>
           </BrowserRouter>

@@ -1,8 +1,7 @@
-import { Box, Button, Paper, Typography } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import { Box, Button, Paper, Typography, CircularProgress } from "@mui/material";
+import React, { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { saveAs } from "file-saver";
-import html2pdf from "html2pdf.js";
 import Confetti from "react-confetti";
 import github from "../../assets/github.png";
 import leetcode from "../../assets/leetcode.png";
@@ -13,75 +12,83 @@ import "../../styles/resumetemplate1.css";
 import { Link } from "react-router-dom";
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import moment from "moment";
-import jsPDF from 'jspdf';
+
 import html2canvas from 'html2canvas';
-import { BASE_URL } from "../../api";
-import axios from 'axios';
+import { jsPDF } from 'jspdf';
+// import { saveAs } from "file-saver";
+import html2pdf from "html2pdf.js";
+import Feedback from "../Feedback";
+
 export default function Template1() {
+  const ref = useRef();
   const profile = useSelector((state) => state.profileDetails);
   const education = useSelector((state) => state.educationDetails);
   const projects = useSelector((state) => state.projectDetails);
   const experience = useSelector((state) => state.experienceDetails);
   const extraDetails = useSelector((state) => state.extraDetails);
   const [congratsVisible, setCongratsVisible] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [feedbackShown, setFeedbackShown] = useState(false);
+
+  useEffect(() => {
+    const feedbackAlreadyShown = localStorage.getItem('feedbackShown');
+    if (feedbackAlreadyShown) {
+      setFeedbackShown(true);
+    }
+  }, []);
 
 
-  // const handleDownload = () => {
-  //   try {
-  //     const resumeContainer =
-  //       document.getElementsByClassName("resume-container")[0];
-
-  //     if (resumeContainer) {
-  //       // Use html2pdf to generate the PDF
-  //       html2pdf(resumeContainer, {
-  //         margin: 0,
-  //         filename: "resume.pdf",
-  //         image: { type: "jpeg", quality: 0.98 },
-  //         html2canvas: { scale: 3 },
-  //         jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
-  //       }).then((pdf) => {
-  //         // Save the PDF using FileSaver.js
-  //         saveAs(pdf, "resume.pdf");
-  //       });
-  //     }
-  //     setCongratsVisible(true);
-  //     setTimeout(() => setCongratsVisible(false), 3000);
-  //   } catch (error) {
-  //     console.error("Error downloading resume:", error);
-  //   }
-  // };
-
-
-  const handleDownload = async () => {
+  const handleDownload = () => {
     try {
-      const resumeContainer = document.getElementsByClassName("resume-container")[0];
-  
+      const resumeContainer = document.querySelector(".resume-container");
+
       if (resumeContainer) {
-        // Use html2canvas to convert the resume container to a canvas
-        const canvas = await html2canvas(resumeContainer, {
-          scale: 2, // Increase scale to improve quality
-          useCORS: true, // Enable cross-origin resource sharing if needed
+        setLoading(true);
+        const opt = {
+          margin: 0.1,
+          filename: 'user-resume.pdf',
+          image: { type: 'jpeg', quality: 1.00 },
+          html2canvas: { scale: 4 },
+          jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' },
+          pagebreak: { mode: ['avoid-all', 'css', 'legacy'] } // Ensure proper page breaks
+        };
+
+        html2pdf().set(opt).from(resumeContainer).save().then(() => {
+          setLoading(false); // End loading state after PDF is generated
+          setCongratsVisible(true); // Trigger Confetti effect
+
+          // Reset confetti after 5 seconds
+          setTimeout(() => {
+            setCongratsVisible(false);
+            // Show feedback dialog only once
+            if (!feedbackShown) {
+              setOpen(true);
+              localStorage.setItem('feedbackShown', 'true');
+              setFeedbackShown(true);
+            }
+          }, 5000);
         });
-  
-        // Convert canvas to PNG image data
-        const imgData = canvas.toDataURL('application/pdf');
-  
-        // Create a temporary link element
-        const downloadLink = document.createElement('a');
-        downloadLink.href = imgData;
-        downloadLink.download = 'resume.png';
-  
-        // Trigger the download
-        downloadLink.click();
+      } else {
+        console.error("Resume container not found.");
+        setLoading(false);
       }
-  
-      setCongratsVisible(true);
-      setTimeout(() => setCongratsVisible(false), 3000);
     } catch (error) {
-      console.error("Error downloading resume:", error);
+      console.error("Error generating PDF:", error);
+      setLoading(false);
     }
   };
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+
+
 
 
   const customStyle = {
@@ -108,11 +115,11 @@ export default function Template1() {
 
   return (
     <>
-      {/* <Confetti
+      <Confetti
         width={window.innerWidth}
         height={window.innerHeight}
-        numberOfPieces={congratsVisible ? 200 : 0}
-      /> */}
+        numberOfPieces={congratsVisible ? 600 : 0}
+      />
 
       <Box
         sx={{
@@ -124,7 +131,7 @@ export default function Template1() {
           flexGrow: 1,
         }}
       >
-        <Paper className="resume-container" elevation={2} style={customStyle}>
+        <Paper className="resume-container" elevation={2} style={customStyle} ref={ref}>
           <Box sx={{ flexShrink: 4 }}>
             {/* Heading */}
             <h1 className="name-heading">
@@ -487,24 +494,34 @@ export default function Template1() {
                       </div>
                     </div>
                   )}
-
-
               </div>
             </div>
           </Box>
         </Paper>
 
+
         <Button
           variant="contained"
           sx={{
-            margin: "20px", borderRadius: "20px", width: "12rem", backgroundColor: "var(--btn)", color: 'black', '&:hover': { backgroundColor: "var(--btnHover)" },
+            margin: "20px",
+            borderRadius: "20px",
+            width: "12rem",
+            backgroundColor: "var(--btn)",
+            color: 'black',
+            '&:hover': { backgroundColor: "var(--btnHover)" }
           }}
           onClick={handleDownload}
           endIcon={<DownloadIcon />}
           className="download-button"
+          disabled={loading} // Disable button while loading
         >
-          Download
+          {loading ? ( // Conditionally render loading indicator
+            <CircularProgress size={24} color="inherit" />
+          ) : (
+            "Download"
+          )}
         </Button>
+        <Feedback open={open} handleClose={handleClose} />
 
         <Box sx={{ position: 'relative', top: '-1000px', left: '1160px', width: '100%', }} className='return-links'>
           <div style={{ display: 'flex', flexDirection: 'column' }}>

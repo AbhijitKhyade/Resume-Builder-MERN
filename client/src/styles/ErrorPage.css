@@ -1,0 +1,65 @@
+.error-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 89vh;
+  /* background-color: #f8f9fa;  */
+}
+
+.error-content {
+  text-align: center;
+}
+
+.error-image {
+  width: 400px; /* Adjust size as needed */
+  height: auto; /* Maintain aspect ratio */
+  margin-bottom: 20px; /* Space between image and text */
+  border-radius: 50%; /* Circular image */
+  background: #f8f9fa; /* Light gray background */
+}
+
+.error-heading {
+  font-size: 2rem; /* Large heading size */
+  margin-bottom: 10px; /* Space between heading and paragraph */
+}
+
+.error-message {
+  font-size: 1.2rem; /* Medium size paragraph text */
+  color: #555; /* Dark gray text color */
+}
+
+.return-button {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 10px 20px;
+  background-color: #425b68; /* Blue color for button */
+  color: white; /* White text color */
+  text-decoration: none;
+  border-radius: 5px;
+  font-size: 1rem; /* Button text size */
+  transition: background-color 0.3s ease;
+  border-radius: 30px;
+}
+
+.return-button:hover {
+  background-color: #456c81; /* Darker blue on hover */
+}
+
+@media screen and (max-width: 768px) {
+  .error-image {
+    width: 300px; /* Adjust size as needed for smaller screens */
+  }
+
+  .error-heading {
+    font-size: 1.5rem; /* Adjust heading size for smaller screens */
+  }
+
+  .error-message {
+    font-size: 1rem; /* Adjust paragraph text size for smaller screens */
+  }
+
+  .return-button {
+    padding: 8px 16px; /* Adjust button padding for smaller screens */
+    font-size: 0.9rem; /* Adjust button text size for smaller screens */
+  }
+}

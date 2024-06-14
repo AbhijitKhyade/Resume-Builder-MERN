@@ -1,4 +1,4 @@
-import { Box, Button, Paper, Typography } from "@mui/material";
+import { Box, Button, CircularProgress, Paper, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { saveAs } from "file-saver";
@@ -17,7 +17,7 @@ import moment from 'moment';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import html2canvas from 'html2canvas';
-import jsPDF from 'jspdf';
+import { jsPDF } from 'jspdf';
 
 
 export default function Template2() {
@@ -27,37 +27,42 @@ export default function Template2() {
   const experience = useSelector((state) => state.experienceDetails);
   const extraDetails = useSelector((state) => state.extraDetails);
   const [congratsVisible, setCongratsVisible] = useState(false);
-
+  const [loading, setLoading] = useState(false);
 
   const handleDownload = () => {
     try {
-      const resumeContainer =
-        document.querySelector(".resume-container");
+      const resumeContainer = document.querySelector(".resume-container");
 
       if (resumeContainer) {
-        // Use html2pdf to generate the PDF
-        html2pdf(resumeContainer, {
-          margin: 0,
-          filename: "resume.pdf",
-          html2canvas: { scale: 3 },
-          output: 'pdf',
-          jsPDF: { unit: "mm", format: "a4", orientation: "portrait" }
-        }).then((pdf) => {
-          // Save the PDF using FileSaver.js
-          saveAs(pdf, "resume.pdf");
+        setLoading(true);
+        const opt = {
+          margin: 0.1,
+          filename: 'user-resume.pdf',
+          image: { type: 'jpeg', quality: 1.00 },
+          html2canvas: { scale: 4 },
+          jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' },
+          pagebreak: { mode: ['avoid-all', 'css', 'legacy'] } // Ensure proper page breaks
+        };
+
+        html2pdf().set(opt).from(resumeContainer).save().then(() => {
+          setLoading(false); // End loading state after PDF is generated
+          setCongratsVisible(true); // Trigger Confetti effect
+
+          // Reset confetti after 5 seconds
+          setTimeout(() => {
+            setCongratsVisible(false);
+          }, 5000);
         });
-
+      } else {
+        console.error("Resume container not found.");
+        setLoading(false);
       }
-
-
-
-
-      // setCongratsVisible(true);
-      // setTimeout(() => setCongratsVisible(false), 3000);
     } catch (error) {
-      console.error("Error downloading resume:", error);
+      console.error("Error generating PDF:", error);
+      setLoading(false);
     }
   };
+
 
   const customStyle = {
     width: "100%",
@@ -85,11 +90,11 @@ export default function Template2() {
 
   return (
     <>
-      {/* <Confetti
-      width={window.innerWidth}
-      height={window.innerHeight}
-      numberOfPieces={congratsVisible ? 200 : 0}
-    /> */}
+      <Confetti
+        width={window.innerWidth}
+        height={window.innerHeight}
+        numberOfPieces={congratsVisible ? 600 : 0}
+      />
 
       <Box
         sx={{
@@ -379,13 +384,23 @@ export default function Template2() {
         <Button
           variant="contained"
           sx={{
-            margin: "20px", borderRadius: "20px", width: "12rem", backgroundColor: "var(--btn)", color: 'black', '&:hover': { backgroundColor: "var(--btnHover)" },
+            margin: "20px",
+            borderRadius: "20px",
+            width: "12rem",
+            backgroundColor: "var(--btn)",
+            color: 'black',
+            '&:hover': { backgroundColor: "var(--btnHover)" }
           }}
           onClick={handleDownload}
           endIcon={<DownloadIcon />}
           className="download-button"
+          disabled={loading} // Disable button while loading
         >
-          Download
+          {loading ? ( // Conditionally render loading indicator
+            <CircularProgress size={24} color="inherit" />
+          ) : (
+            "Download"
+          )}
         </Button>
 
         <Box sx={{ position: 'relative', top: '-1000px', left: '1160px', width: '100%', }} className='return-links'>

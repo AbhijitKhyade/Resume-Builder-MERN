@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Card,
   CardContent,
@@ -17,6 +17,8 @@ import AutoAwesomeIcon from "@mui/icons-material/AutoAwesome";
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useDispatch, useSelector } from "react-redux";
 import Tooltip from "@mui/material/Tooltip";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import {
   addSkills,
   addAchievements,
@@ -45,7 +47,7 @@ const ExtraDetails = () => {
   const projectData = useSelector((state) => state.projectDetails);
   const experienceData = useSelector((state) => state.experienceDetails);
   const extraDetailsData = useSelector((state) => state.extraDetails);
-
+  const [loading, setLoading] = useState(false);
   const handleAddItem = (type) => {
     if (type === "achievements") {
       dispatch(addAchievements());
@@ -123,6 +125,7 @@ const ExtraDetails = () => {
   )
 
   const handleSave = async () => {
+    setLoading(true);
     const resumeData = {
       profile: profileData,
       education: educationalData,
@@ -134,7 +137,19 @@ const ExtraDetails = () => {
     try {
       const response = await axios.post(`${BASE_URL}/data/resume-data`, { resumeData });
       console.log("response: ", response.data);
+      toast.success("Data Saved Successfully!", {
+        position: "top-left",
+        autoClose: 1500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+      setLoading(false);
     } catch (error) {
+      setLoading(false);
       console.error("Error in addResumeData:", error);
     }
 

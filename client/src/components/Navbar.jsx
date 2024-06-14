@@ -1,31 +1,29 @@
 import React, { useState } from "react";
-import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
-import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
-import logo from "../assets/profile.png";
+import { useSelector, useDispatch } from 'react-redux';
 import { Link, useNavigate } from "react-router-dom";
 import { Button, Avatar, Menu, MenuItem, IconButton, Drawer, List, ListItem, ListItemIcon, ListItemText } from "@mui/material";
-import { useSelector } from 'react-redux';
-import { useDispatch } from 'react-redux';
-import { logoutUser } from "../redux/userSlice";
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import AppBar from "@mui/material/AppBar";
+import Toolbar from "@mui/material/Toolbar";
+import Typography from "@mui/material/Typography";
 import MenuIcon from '@mui/icons-material/Menu';
 import HomeIcon from '@mui/icons-material/Home';
 import EditIcon from '@mui/icons-material/Edit';
 import DescriptionIcon from '@mui/icons-material/Description';
 import LogoutIcon from '@mui/icons-material/Logout';
-import '../styles/Navbar.css';
+import logo from "../assets/profile.png";
+import { logoutUser } from "../redux/userSlice";
 import { clearEducation } from "../redux/educationSlice";
 import { clearProjects } from "../redux/projectSlice";
 import { clearExperience } from "../redux/experienceSlice";
 import { clearExtraDetails } from "../redux/extraDetailsSlice";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import '../styles/Navbar.css';
 
 const Navbar = () => {
   const currentUser = useSelector((state) => state.user.currentUser);
   const [anchorEl, setAnchorEl] = useState(null);
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false); // State for managing sidebar open/close
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -44,7 +42,6 @@ const Navbar = () => {
   };
 
   const handleClose = () => {
-    // console.log("clicked")
     setAnchorEl(null);
     setIsDrawerOpen(false);
   };
@@ -61,16 +58,14 @@ const Navbar = () => {
       theme: "light",
     });
     dispatch(logoutUser());
-    dispatch(clearProfile());
     dispatch(clearEducation());
     dispatch(clearProjects());
     dispatch(clearExperience());
     dispatch(clearExtraDetails());
+  };
 
-  }
-  // console.log(currentUser?.avatar)
   return (
-    <Box sx={{ flexGrow: 1 }}>
+    <nav className="nav-container">
       <AppBar position="static" style={{ backgroundColor: 'var(--bgColor)', color: 'black', }}>
         <Toolbar>
           <div className="menu-icon">
@@ -78,7 +73,7 @@ const Navbar = () => {
               edge="start"
               color="inherit"
               aria-label="menu"
-              onClick={() => setIsDrawerOpen(true)} // Open sidebar on click
+              onClick={() => setIsDrawerOpen(true)}
             >
               <MenuIcon />
             </IconButton>
@@ -86,7 +81,7 @@ const Navbar = () => {
           <Drawer
             anchor="left"
             open={isDrawerOpen}
-            onClose={() => setIsDrawerOpen(false)} // Close sidebar on click outside
+            onClose={() => setIsDrawerOpen(false)}
           >
             <List>
               <ListItem button component={Link} to="/" onClick={handleClose}>
@@ -113,7 +108,6 @@ const Navbar = () => {
                 </ListItemIcon>
                 <ListItemText primary="Logout" />
               </ListItem>
-
             </List>
           </Drawer>
 
@@ -126,25 +120,24 @@ const Navbar = () => {
               flexGrow: 1,
               marginLeft: "2px",
               fontWeight: "600",
-              '@media (max-width: 600px)': {
-                fontSize: "14px" // Adjust the font size as per your requirement
-              }
             }}
-            style={styles.text}
           >
-            <Link to={'/'} style={{ textDecoration: 'none', color: '#000' }}> RESUME BUILDER</Link>
+            <Link to={'/'} className="resume-builder-link"> RESUME BUILDER</Link>
           </Typography>
 
           {currentUser ? (
             <>
-              <Link to={'/templates'} style={{ textDecoration: 'none', color: '#000' }}>
+              <Link to={'/templates'} className="template-link">
                 <Button color="inherit">Template</Button>
               </Link>
-              <Avatar
-                src={currentUser?.avatar}
-                alt="user" sx={styles.avatar}
-                onClick={handleClick}
-              />
+              <div className="avatar-container">
+                <Avatar
+                  src={currentUser?.avatar}
+                  alt="user"
+                  className="avatar"
+                  onClick={handleClick}
+                />
+              </div>
               <Menu
                 anchorEl={anchorEl}
                 open={Boolean(anchorEl)}
@@ -164,28 +157,14 @@ const Navbar = () => {
               </Menu>
             </>
           ) : (
-            <Link to={'/sign-in'} style={{ textDecoration: 'none', color: '#000' }}>
+            <Link to={'/sign-in'} className="login-link">
               <Button color="inherit">Login</Button>
             </Link>
-
           )}
         </Toolbar>
       </AppBar>
-    </Box >
+    </nav>
   );
 };
 
 export default Navbar;
-
-const styles = {
-  avatar: {
-    cursor: 'pointer',
-    width: '30px',
-    height: '30px',
-    marginLeft: '10px'
-  },
-  text: {
-    margin: 0,
-    fontSize: '24px'
-  }
-}
