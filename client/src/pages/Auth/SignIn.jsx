@@ -21,14 +21,14 @@ export default function SignIn() {
             const auth = getAuth(app);
             const result = await signInWithPopup(auth, provider);
 
-            console.log(result?.user);
+            // console.log(result?.user);
             const formData = {
                 username: result?.user?.displayName,
                 email: result?.user?.email,
                 avatar: result?.user?.photoURL
             };
             const response = await axios.post(`${BASE_URL}/auth/google-sign-in`, formData);
-            console.log(response?.data?.user);
+            // console.log(response?.data?.user);
             dispatch(signInSuccess(response?.data?.user));
             toast.success(response?.data?.message, {
                 position: "top-left",

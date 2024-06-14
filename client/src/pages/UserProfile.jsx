@@ -40,10 +40,10 @@ export default function UserProfile() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     setLoading(true);
-    console.log(formData);
+    // console.log(formData);
     try {
       const response = await axios.put(`${BASE_URL}/user/update/${currentUser._id}`, formData);
-      console.log(response.data);
+      // console.log(response.data);
       toast.success("Profile Updated Successfully!", {
         position: "top-left",
         autoClose: 1500,
@@ -65,7 +65,7 @@ export default function UserProfile() {
   const getUser = async () => {
     try {
       const response = await axios.get(`${BASE_URL}/user/get-user/${currentUser._id}`);
-      console.log(response.data);
+      // console.log(response.data);
       setFormData({
         username: response.data.username,
       });
