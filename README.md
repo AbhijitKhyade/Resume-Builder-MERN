@@ -20,6 +20,7 @@ Screenshots
 ### 3.Project Section
 ![image](https://github.com/AbhijitKhyade/Resume-Builder-MERN/assets/129264746/c9be87c5-36a2-483c-9a27-99215321fbec)
 ### 4.Resume Data
+![image](https://github.com/AbhijitKhyade/Resume-Builder-MERN/assets/129264746/11d307dd-b942-4ff0-a761-1c00726d6911)
 
 
 ## Technologies Used
@@ -33,6 +34,7 @@ Screenshots
   3)Responsive design for mobile and desktop
   4)Secure data storage using MongoDB Atlas
   5)Download resume pdf and edit is available
+  6)Two Professional Like Resume Formats
 
 ## Installation
 To run this project locally, follow these steps:
