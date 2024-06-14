@@ -18,7 +18,7 @@ import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import html2canvas from 'html2canvas';
 import { jsPDF } from 'jspdf';
-import moment from "moment";
+
 
 export default function Template2() {
   const profile = useSelector((state) => state.profileDetails);
