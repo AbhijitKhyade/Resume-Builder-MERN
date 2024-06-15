@@ -10,10 +10,10 @@ const Feedback = ({ open, handleClose }) => {
     const currentUser = useSelector((state) => state.user.currentUser);
     const handleFeedback = async (e) => {
         e.preventDefault();
-        console.log(feedback);
+        // console.log(feedback);
         try {
             const response = await axios.post(`${BASE_URL}/user/feedback?id=${currentUser._id}`, { feedback });
-            console.log(response.data);
+            // console.log(response.data);
             toast.success("Thank you for your Feedback!", {
                 position: "top-left",
                 autoClose: 3000,

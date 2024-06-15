@@ -25,10 +25,15 @@ const Education = () => {
   const dispatch = useDispatch();
   const education = useSelector((state) => state.educationDetails);
 
+  // const handleChange = (event) => {
+  //   const { name, value } = event.target;
+  //   dispatch(updateEducation({ [name]: value }));
+  // };
   const handleChange = (event) => {
     const { name, value } = event.target;
-    dispatch(updateEducation({ [name]: value }));
+    dispatch(updateEducation({ ...education, [name]: value }));
   };
+
 
   const containerStyle = {
     marginTop: "30",

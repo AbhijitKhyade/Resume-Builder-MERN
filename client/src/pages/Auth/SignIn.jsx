@@ -45,6 +45,16 @@ export default function SignIn() {
         } catch (error) {
             console.log(error);
             dispatch(signInFailure(error.message));
+            toast.error("Login failed. Please try again.", {
+                position: "top-left",
+                autoClose: 1500,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+            });
         }
     }
 
@@ -89,7 +99,7 @@ export default function SignIn() {
 
     return (
         <div style={styles.container}>
-            <div style={{border:'1px solid black', position:'relative' , marginTop:'-600px', marginLeft:'-600px'}}>
+            <div style={{ border: '1px solid black', position: 'relative', marginTop: '-600px', marginLeft: '-600px' }}>
                 {bubbles}
             </div>
             <button style={styles.button} onClick={handleGoogle} >
@@ -115,7 +125,7 @@ const styles = {
         alignItems: 'center',
         padding: '12px 21px',
         borderRadius: '5px',
-        marginLeft:'600px',
+        marginLeft: '600px',
         border: 'black 2px solid',
         backgroundColor: '#fff',
         color: '#fff',

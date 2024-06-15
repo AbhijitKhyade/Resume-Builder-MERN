@@ -19,6 +19,7 @@ import { clearExtraDetails } from "../redux/extraDetailsSlice";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import '../styles/Navbar.css';
+import { clearProfile } from "../redux/profileSlice";
 
 const Navbar = () => {
   const currentUser = useSelector((state) => state.user.currentUser);
@@ -58,12 +59,13 @@ const Navbar = () => {
       theme: "light",
     });
     dispatch(logoutUser());
+    dispatch(clearProfile());
     dispatch(clearEducation());
     dispatch(clearProjects());
     dispatch(clearExperience());
     dispatch(clearExtraDetails());
   };
-  console.log(currentUser);
+  // console.log(currentUser);
   return (
     <nav className="nav-container">
       <AppBar position="static" style={{ backgroundColor: 'var(--bgColor)', color: 'black', }}>

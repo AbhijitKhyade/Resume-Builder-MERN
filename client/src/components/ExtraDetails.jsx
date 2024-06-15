@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Card,
   CardContent,
@@ -33,6 +33,7 @@ import {
   updateCoreSubjects,
   addCoreSubjects
 } from "../redux/extraDetailsSlice";
+
 import { Link } from "react-router-dom";
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
@@ -40,6 +41,7 @@ import axios from "axios";
 import { BASE_URL } from "../api";
 
 const ExtraDetails = () => {
+  const currentUser = useSelector((state) => state.user.currentUser);
   const dispatch = useDispatch();
   const extraDetails = useSelector((state) => state.extraDetails);
   const profileData = useSelector((state) => state.profileDetails);
@@ -133,9 +135,9 @@ const ExtraDetails = () => {
       experience: experienceData,
       extraDetails: extraDetailsData,
     };
-    console.log("resume data: ", resumeData);
+    // console.log("resume data: ", resumeData);
     try {
-      const response = await axios.post(`${BASE_URL}/data/resume-data`, { resumeData });
+      const response = await axios.post(`${BASE_URL}/data/resume-data?id=${currentUser._id}`, { resumeData });
       console.log("response: ", response.data);
       toast.success("Data Saved Successfully!", {
         position: "top-left",
@@ -154,6 +156,8 @@ const ExtraDetails = () => {
     }
 
   };
+
+ 
 
   return (
     <div style={containerStyle}>

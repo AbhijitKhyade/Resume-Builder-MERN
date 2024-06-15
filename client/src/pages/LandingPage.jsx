@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Box, Button, Container, Typography } from '@mui/material';
 import { motion } from 'framer-motion';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
@@ -7,6 +7,14 @@ import '../styles/LandingPage.css';
 import img1 from '../assets/img1.jpg';
 import img2 from '../assets/img2.jpg';
 import img3 from '../assets/img3.jpg';
+import { useDispatch, useSelector } from 'react-redux';
+import { updateEducation } from '../redux/educationSlice';
+import { updateProfile } from '../redux/profileSlice';
+import { updateProject } from '../redux/projectSlice';
+import { updateExperience } from '../redux/experienceSlice';
+import axios from 'axios';
+import { BASE_URL } from '../api';
+import { updateAchievements, updateExtraCoCurricular, updateSkills } from '../redux/extraDetailsSlice';
 
 const theme = createTheme({
     palette: {
@@ -28,7 +36,58 @@ const theme = createTheme({
 
 
 export default function LandingPage() {
+    const currentUser = useSelector((state) => state.user.currentUser);
     const navigate = useNavigate();
+    const dispatch = useDispatch();
+
+    const getAllResumeData = async () => {
+        try {
+            const response = await axios.get(`${BASE_URL}/data/get-all-resume-data?id=${currentUser._id}`);
+            // console.log("response: ", response.data.resumeData[0]);
+            const resumeData = response.data.resumeData[0];
+            // console.log('Education:', resumeData.education[0])
+            if (resumeData) {
+                dispatch(updateProfile(resumeData.profile));
+                dispatch(updateEducation(resumeData.education[0]));
+                resumeData.projects.forEach((project, index) => {
+                    Object.keys(project).forEach(field => {
+                        dispatch(updateProject({ index, field, value: project[field] }));
+                    });
+                });
+
+                // Assuming resumeData.experience is an array
+                resumeData.experience.forEach((experience, index) => {
+                    Object.keys(experience).forEach(field => {
+                        dispatch(updateExperience({ index, field, value: experience[field] }));
+                    });
+                });
+                const { skills, achievements, extraCoCurricular } = resumeData.extraDetails;
+                // Update skills
+                // console.log(skills);
+                Object.keys(skills).forEach((type) => {
+                    skills[type].forEach((skill, index) => {
+                        dispatch(updateSkills({ type, index, value: skill }));
+                    });
+                });
+
+                // Update achievements
+                achievements.forEach((achievement, index) => {
+                    dispatch(updateAchievements({ index, value: achievement }));
+                });
+
+                // Update extra co-curricular activities
+                extraCoCurricular.forEach((activity, index) => {
+                    dispatch(updateExtraCoCurricular({ index, value: activity }));
+                });
+            }
+        } catch (error) {
+            console.error("Error in getAllResumeData:", error);
+        }
+    };
+
+    useEffect(() => {
+        getAllResumeData();
+    }, []);
 
     const handleGetStarted = () => {
         navigate('/profile');

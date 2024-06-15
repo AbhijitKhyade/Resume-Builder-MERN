@@ -18,19 +18,36 @@ const extraDetailsSlice = createSlice({
     name: "extraDetails",
     initialState,
     reducers: {
-        updateSkills: (state, action) => {
-            const { type, index, value } = action.payload;
-            return {
-                ...state,
-                skills: {
-                    ...state.skills,
-                    [type]: state.skills[type].map((skill, i) =>
-                        i === index ? value : skill
-                    )
-                }
-            };
-        },
+        // updateSkills: (state, action) => {
+        //     const { type, index, value } = action.payload;
+        //     console.log(action.payload);
+        //     const updatedSkills = {
+        //         ...state.skills,
+        //         [type]: state.skills[type].map((skill, i) =>
+        //             i === index ? value : skill
+        //         ),
+        //     };
 
+        //     console.log("Updated Skills:", updatedSkills);
+
+        //     return {
+        //         ...state,
+        //         skills: updatedSkills,
+        //     };
+        // },
+        updateSkills(state, action) {
+            const { type, index, value } = action.payload;
+
+            // Ensure the array exists before updating
+            if (state.skills[type]) {
+                // Update the specific item in the nested array
+                state.skills[type][index] = value;
+            } else {
+                // Create a new array if it doesn't exist and update
+                state.skills[type] = [];
+                state.skills[type][index] = value;
+            }
+        },
         addSkills: (state, action) => {
             const { type } = action.payload;
             return {
@@ -84,11 +101,7 @@ const extraDetailsSlice = createSlice({
         addCoreSubjects: (state, _action) => {
             state.coreSubjects.push(""); // Add an empty string as a new core subject
         },
-        clearExtraDetails: (state) => {
-            return initialState; // Reset to initial state
-        },
-
-
+        clearExtraDetails: () => initialState,
     },
 });
 

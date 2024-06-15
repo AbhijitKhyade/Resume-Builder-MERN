@@ -18,6 +18,11 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import axios from 'axios';
 import { BASE_URL } from '../api';
 import '../styles/userProfile.css';
+import { clearEducation } from '../redux/educationSlice';
+import { clearProjects } from '../redux/projectSlice';
+import { clearExperience } from '../redux/experienceSlice';
+import { clearExtraDetails } from '../redux/extraDetailsSlice';
+import { clearProfile } from '../redux/profileSlice';
 
 export default function UserProfile() {
   const currentUser = useSelector((state) => state.user.currentUser);
@@ -91,6 +96,12 @@ export default function UserProfile() {
       progress: undefined,
       theme: "light",
     });
+    dispatch(logoutUser());
+    dispatch(clearProfile());
+    dispatch(clearEducation());
+    dispatch(clearProjects());
+    dispatch(clearExperience());
+    dispatch(clearExtraDetails());
   };
 
   const sidebarLinks = [

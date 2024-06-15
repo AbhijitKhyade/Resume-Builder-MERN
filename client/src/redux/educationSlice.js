@@ -21,7 +21,7 @@ const initialState = {
     city3: "",
     percentage2: "",
     board2: "",
-}
+};
 
 const educationSlice = createSlice({
     name: "education",
@@ -30,12 +30,10 @@ const educationSlice = createSlice({
         updateEducation: (state, action) => {
             return { ...state, ...action.payload };
         },
-        clearEducation: (state) => {
-            return initialState; // Reset to initial state
-        },
+        clearEducation: () => initialState,
     },
 });
 
 export const { updateEducation, clearEducation } = educationSlice.actions;
-export const selectEducation = (state) => state.education;
+export const selectEducation = (state) => state.education; // Adjusted selector
 export default educationSlice.reducer;

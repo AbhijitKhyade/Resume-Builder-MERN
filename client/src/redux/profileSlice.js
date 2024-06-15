@@ -22,9 +22,7 @@ const profileSlice = createSlice({
         updateProfile: (state, action) => {
             return { ...state, ...action.payload };
         },
-        clearProfile: (state) => {
-            return initialState; // Reset to initial state
-        },
+        clearProfile: () => initialState,
     },
 });
 

@@ -17,9 +17,7 @@ const projectSlice = createSlice({
         deleteProject: (state, action) => {
             return state.filter((project, index) => index !== action.payload);
         },
-        clearProjects: (state) => {
-            return initialState; // Reset to initial state
-        },
+        clearProjects: () => initialState,
     },
 });
 

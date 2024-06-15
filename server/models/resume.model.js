@@ -76,7 +76,11 @@ const resumeSchema = new mongoose.Schema({
     education: [educationSchema],
     projects: [projectSchema],
     experience: [experienceSchema],
-    extraDetails: extraDetailsSchema
+    extraDetails: extraDetailsSchema,
+    userId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    }
 });
 
 // Create and export the model
