@@ -18,7 +18,11 @@ dotenv.config();
 mongoDB();
 
 //middlewares
-app.use(cors());
+app.use(cors({
+    origin: 'https://resume-builder-mern-eight.vercel.app',
+    credentials: true,
+}));
+
 app.use(express.json());
 app.use('/styles', express.static(path.join(__dirname, 'styles')));
 
