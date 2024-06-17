@@ -148,63 +148,54 @@ const Navbar = () => {
 
           {currentUser ? (
             <>
-              <div
-                onMouseEnter={handleSectionsClick}
-                onMouseLeave={handleClose}
+              <Button color="inherit" onClick={handleSectionsClick}>
+                Sections
+              </Button>
+              <Menu
+                anchorEl={sectionsAnchorEl}
+                open={Boolean(sectionsAnchorEl)}
+                onClose={handleClose}
+                anchorOrigin={{
+                  vertical: 'bottom',
+                  horizontal: 'right',
+                }}
+                transformOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right',
+                }}
               >
-                <Button color="inherit">
-                  Sections
-                </Button>
-                <Menu
-                  anchorEl={sectionsAnchorEl}
-                  open={Boolean(sectionsAnchorEl)}
-                  onClose={handleClose}
-                  anchorOrigin={{
-                    vertical: 'bottom',
-                    horizontal: 'right',
-                  }}
-                  transformOrigin={{
-                    vertical: 'top',
-                    horizontal: 'right',
-                  }}
-                >
-                  <MenuItem onClick={() => { navigate('/user-profile'); handleClose(); }}>Profile</MenuItem>
-                  <MenuItem onClick={() => { navigate('/education'); handleClose(); }}>Education</MenuItem>
-                  <MenuItem onClick={() => { navigate('/projects'); handleClose(); }}>Projects</MenuItem>
-                  <MenuItem onClick={() => { navigate('/experience'); handleClose(); }}>Experience</MenuItem>
-                  <MenuItem onClick={() => { navigate('/extra-details'); handleClose(); }}>Extra Details</MenuItem>
-                </Menu>
-              </div>
-
-              <div
-                className="avatar-container"
-                onMouseEnter={handleClick}
-                onMouseLeave={handleClose}
-              >
+                <MenuItem onClick={() => { navigate('/profile'); handleClose(); }}>Profile</MenuItem>
+                <MenuItem onClick={() => { navigate('/education'); handleClose(); }}>Education</MenuItem>
+                <MenuItem onClick={() => { navigate('/projects'); handleClose(); }}>Projects</MenuItem>
+                <MenuItem onClick={() => { navigate('/experience'); handleClose(); }}>Experience</MenuItem>
+                <MenuItem onClick={() => { navigate('/extraDetails'); handleClose(); }}>Extra Details</MenuItem>
+              </Menu>
+              <div className="avatar-container">
                 <Avatar
                   src={currentUser?.avatar}
                   alt="user"
                   className="avatar"
+                  onClick={handleClick}
                 />
-                <Menu
-                  anchorEl={anchorEl}
-                  open={Boolean(anchorEl)}
-                  onClose={handleClose}
-                  anchorOrigin={{
-                    vertical: 'bottom',
-                    horizontal: 'right',
-                  }}
-                  transformOrigin={{
-                    vertical: 'top',
-                    horizontal: 'right',
-                  }}
-                >
-                  <MenuItem onClick={handleProfileClick}>My Profile</MenuItem>
-                  <MenuItem onClick={handleTemplateClick}>Templates</MenuItem>
-                  <MenuItem onClick={handleContactUsClick}>Contact Us</MenuItem>
-                  <MenuItem onClick={handleLogout}>Logout</MenuItem>
-                </Menu>
               </div>
+              <Menu
+                anchorEl={anchorEl}
+                open={Boolean(anchorEl)}
+                onClose={handleClose}
+                anchorOrigin={{
+                  vertical: 'bottom',
+                  horizontal: 'right',
+                }}
+                transformOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right',
+                }}
+              >
+                <MenuItem onClick={handleProfileClick}>My Profile</MenuItem>
+                <MenuItem onClick={handleTemplateClick}>Templates</MenuItem>
+                <MenuItem onClick={handleContactUsClick}>Contact Us</MenuItem>
+                <MenuItem onClick={handleLogout}>Logout</MenuItem>
+              </Menu>
             </>
           ) : (
             <Link to={'/sign-in'} className="login-link">
