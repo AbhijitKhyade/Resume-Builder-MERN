@@ -104,7 +104,7 @@ const Navbar = () => {
                     </ListItemIcon>
                     <ListItemText primary="Home" />
                   </ListItem>
-                  <ListItem button component={Link} to="/create-resume" onClick={handleClose}>
+                  <ListItem button component={Link} to="/profile" onClick={handleClose}>
                     <ListItemIcon>
                       <EditIcon />
                     </ListItemIcon>
