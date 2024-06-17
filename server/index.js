@@ -17,14 +17,14 @@ dotenv.config();
 //database config   
 mongoDB();
 
-//middlewares
-app.use(cors({
-    origin: 'https://resume-builder-mern-eight.vercel.app',
-    credentials: true,
-}));
 
 app.use(express.json());
-app.use('/styles', express.static(path.join(__dirname, 'styles')));
+app.use(cors());
+//middlewares
+// app.use(cors({
+//     origin: 'https://resume-builder-mern-eight.vercel.app',
+//     credentials: true,
+// }));
 
 //routes
 app.use('/api/auth', authRoutes);
@@ -33,4 +33,7 @@ app.use('/api/data', resumeRoutes);
 
 const PORT = process.env.PORT || 8080;
 
-app.listen(PORT, () => console.log(`Server is running on ${PORT}`));
+app.listen(process.env.PORT, () => {
+    // console.log(`Server is working on https://resume-builder-mern-eight.vercel.app:${process.env.PORT}`);
+    console.log(`Server is working on http://localhost:${process.env.PORT}`);
+});

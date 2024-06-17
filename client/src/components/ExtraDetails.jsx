@@ -157,7 +157,7 @@ const ExtraDetails = () => {
 
   };
 
- 
+
 
   return (
     <div style={containerStyle}>
@@ -551,6 +551,8 @@ const ExtraDetails = () => {
           </Button>
         </div> */}
       </CardContent>
+
+      <p style={{ display: 'flex',justifyContent: 'center', color:'red' }}>*Please save your data to get edited next time</p>
 
       <div style={{ display: 'flex', justifyContent: 'center', marginTop: '15px' }}>
         <Button

@@ -155,7 +155,7 @@ export default function UserProfile() {
 
   return (
     <Container component="main" maxWidth="lg">
-      <AppBar position="fixed" style={{ backgroundColor: 'var(--bgColor)', color: 'black', }}>
+      {/* <AppBar position="fixed" style={{ backgroundColor: 'var(--bgColor)', color: 'black', }}>
         <Toolbar>
           <IconButton
             edge="start"
@@ -170,7 +170,7 @@ export default function UserProfile() {
             User Profile
           </Typography>
         </Toolbar>
-      </AppBar>
+      </AppBar> */}
       <Toolbar />
       <Drawer
         anchor="left"

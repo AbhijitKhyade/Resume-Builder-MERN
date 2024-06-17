@@ -23,6 +23,7 @@ import { clearProfile } from "../redux/profileSlice";
 
 const Navbar = () => {
   const currentUser = useSelector((state) => state.user.currentUser);
+  const [sectionsAnchorEl, setSectionsAnchorEl] = useState(null);
   const [anchorEl, setAnchorEl] = useState(null);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const navigate = useNavigate();
@@ -30,6 +31,10 @@ const Navbar = () => {
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
+  };
+
+  const handleSectionsClick = (event) => {
+    setSectionsAnchorEl(event.currentTarget);
   };
 
   const handleProfileClick = () => {
@@ -41,9 +46,14 @@ const Navbar = () => {
     navigate('/contact-us');
     setAnchorEl(null);
   };
+  const handleTemplateClick = () => {
+    navigate('/templates');
+    setAnchorEl(null);
+  };
 
   const handleClose = () => {
     setAnchorEl(null);
+    setSectionsAnchorEl(null);
     setIsDrawerOpen(false);
   };
 
@@ -138,34 +148,63 @@ const Navbar = () => {
 
           {currentUser ? (
             <>
-              <Link to={'/templates'} className="template-link">
-                <Button color="inherit">Template</Button>
-              </Link>
-              <div className="avatar-container">
+              <div
+                onMouseEnter={handleSectionsClick}
+                onMouseLeave={handleClose}
+              >
+                <Button color="inherit">
+                  Sections
+                </Button>
+                <Menu
+                  anchorEl={sectionsAnchorEl}
+                  open={Boolean(sectionsAnchorEl)}
+                  onClose={handleClose}
+                  anchorOrigin={{
+                    vertical: 'bottom',
+                    horizontal: 'right',
+                  }}
+                  transformOrigin={{
+                    vertical: 'top',
+                    horizontal: 'right',
+                  }}
+                >
+                  <MenuItem onClick={() => { navigate('/user-profile'); handleClose(); }}>Profile</MenuItem>
+                  <MenuItem onClick={() => { navigate('/education'); handleClose(); }}>Education</MenuItem>
+                  <MenuItem onClick={() => { navigate('/projects'); handleClose(); }}>Projects</MenuItem>
+                  <MenuItem onClick={() => { navigate('/experience'); handleClose(); }}>Experience</MenuItem>
+                  <MenuItem onClick={() => { navigate('/extra-details'); handleClose(); }}>Extra Details</MenuItem>
+                </Menu>
+              </div>
+
+              <div
+                className="avatar-container"
+                onMouseEnter={handleClick}
+                onMouseLeave={handleClose}
+              >
                 <Avatar
                   src={currentUser?.avatar}
                   alt="user"
                   className="avatar"
-                  onClick={handleClick}
                 />
+                <Menu
+                  anchorEl={anchorEl}
+                  open={Boolean(anchorEl)}
+                  onClose={handleClose}
+                  anchorOrigin={{
+                    vertical: 'bottom',
+                    horizontal: 'right',
+                  }}
+                  transformOrigin={{
+                    vertical: 'top',
+                    horizontal: 'right',
+                  }}
+                >
+                  <MenuItem onClick={handleProfileClick}>My Profile</MenuItem>
+                  <MenuItem onClick={handleTemplateClick}>Templates</MenuItem>
+                  <MenuItem onClick={handleContactUsClick}>Contact Us</MenuItem>
+                  <MenuItem onClick={handleLogout}>Logout</MenuItem>
+                </Menu>
               </div>
-              <Menu
-                anchorEl={anchorEl}
-                open={Boolean(anchorEl)}
-                onClose={handleClose}
-                anchorOrigin={{
-                  vertical: 'bottom',
-                  horizontal: 'right',
-                }}
-                transformOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right',
-                }}
-              >
-                <MenuItem onClick={handleProfileClick}>My Profile</MenuItem>
-                <MenuItem onClick={handleContactUsClick}>Contact Us</MenuItem>
-                <MenuItem onClick={handleLogout}>Logout</MenuItem>
-              </Menu>
             </>
           ) : (
             <Link to={'/sign-in'} className="login-link">
