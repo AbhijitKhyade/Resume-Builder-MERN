@@ -54,11 +54,11 @@ Create a .env file in the backend directory.
 Add your MongoDB connection URI, JWT secret, and any other necessary variables.
 
 Start the development servers:
-# Start backend server (runs on http://localhost:8080)
+## Start backend server (runs on http://localhost:8080)
 cd server
 npm start
 
-# Start frontend development server (runs on http://localhost:3000)
+## Start frontend development server (runs on http://localhost:3000)
 cd client
 npm start
 Open your browser and navigate to http://localhost:3000 to view the application.
