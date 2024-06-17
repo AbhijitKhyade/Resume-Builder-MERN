@@ -1,9 +1,6 @@
 const express = require('express');
-const cors = require('cors');
 const dotenv = require('dotenv');
-const fs = require('fs');
-const path = require('path');
-
+const cors = require('cors');
 const mongoDB = require('./config/db');
 const authRoutes = require('./routes/auth.route');
 const userRoutes = require('./routes/user.route');
@@ -34,6 +31,6 @@ app.use('/api/data', resumeRoutes);
 const PORT = process.env.PORT || 8080;
 
 app.listen(process.env.PORT, () => {
-    // console.log(`Server is working on https://resume-builder-mern-eight.vercel.app:${process.env.PORT}`);
-    console.log(`Server is working on http://localhost:${process.env.PORT}`);
+     console.log(`Server is working on https://resume-builder-mern-eight.vercel.app:${process.env.PORT}`);
+    //console.log(`Server is working on http://localhost:${process.env.PORT}`);
 });
