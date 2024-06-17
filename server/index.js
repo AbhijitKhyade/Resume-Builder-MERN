@@ -18,10 +18,7 @@ mongoDB();
 app.use(express.json());
 // app.use(cors());
 //middlewares
-app.use(cors({
-    origin: 'https://resume-builder-mern-eight.vercel.app',
-    credentials: true,
-}));
+app.use(cors());
 
 //routes
 app.use('/api/auth', authRoutes);
