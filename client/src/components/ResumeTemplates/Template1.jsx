@@ -51,7 +51,7 @@ export default function Template1() {
           image: { type: 'jpeg', quality: 1.00 },
           html2canvas: { scale: 4 },
           jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' },
-          pagebreak: { mode: ['avoid-all', 'css', 'legacy'] } // Ensure proper page breaks
+          // pagebreak: { mode: ['avoid-all', 'css', 'legacy'] } // Ensure proper page breaks
         };
 
         html2pdf().set(opt).from(resumeContainer).save().then(() => {
@@ -61,12 +61,6 @@ export default function Template1() {
           // Reset confetti after 5 seconds
           setTimeout(() => {
             setCongratsVisible(false);
-            // Show feedback dialog only once
-            if (!feedbackShown) {
-              setOpen(true);
-              localStorage.setItem('feedbackShown', 'true');
-              setFeedbackShown(true);
-            }
           }, 5000);
         });
       } else {
@@ -388,7 +382,7 @@ export default function Template1() {
                     <ul>
                       {/* <li key={index}>{subject}</li> */}
                       <li>Data Structures and Algorithms</li>
-                      <li>Object Oriented Programming</li>
+                      {/* <li>Object Oriented Programming</li> */}
                       <li>Database Management System</li>
                       <li>Operating System</li>
                     </ul>
