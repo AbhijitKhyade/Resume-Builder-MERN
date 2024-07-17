@@ -16,7 +16,6 @@ mongoDB();
 
 
 app.use(express.json());
-// app.use(cors());
 //middlewares
 app.use(cors());
 

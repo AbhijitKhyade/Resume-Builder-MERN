@@ -538,7 +538,7 @@ const updateUser = async (req, res) => {
       return res.status(404).send('User not found');
     }
 
-    const updatedUser = await User.findByIdAndUpdate(id, { username, password }, { new: true });
+    const updatedUser = await User.findByIdAndUpdate(id, { username, password }, { new: true }).select('-password');
 
     res.json(updatedUser);
   } catch (error) {

@@ -137,7 +137,11 @@ const ExtraDetails = () => {
     };
     // console.log("resume data: ", resumeData);
     try {
-      const response = await axios.post(`${BASE_URL}/data/resume-data?id=${currentUser._id}`, { resumeData });
+      const response = await axios.post(`${BASE_URL}/data/resume-data?id=${currentUser._id}`, { resumeData }, {
+        headers: {
+          authorization: currentUser.token,
+        },
+      });
       console.log("response: ", response.data);
       toast.success("Data Saved Successfully!", {
         position: "top-left",
@@ -552,7 +556,7 @@ const ExtraDetails = () => {
         </div> */}
       </CardContent>
 
-      <p style={{ display: 'flex',justifyContent: 'center', color:'red' }}>*Please save your data to get edited next time</p>
+      <p style={{ display: 'flex', justifyContent: 'center', color: 'red' }}>*Please save your data to get edited next time</p>
 
       <div style={{ display: 'flex', justifyContent: 'center', marginTop: '15px' }}>
         <Button

@@ -47,7 +47,11 @@ export default function UserProfile() {
     setLoading(true);
     // console.log(formData);
     try {
-      const response = await axios.put(`${BASE_URL}/user/update/${currentUser._id}`, formData);
+      const response = await axios.put(`${BASE_URL}/user/update/${currentUser._id}`, formData, {
+        headers: {
+          authorization: currentUser.token,
+        },
+      });
       // console.log(response.data);
       toast.success("Profile Updated Successfully!", {
         position: "top-left",
@@ -59,6 +63,7 @@ export default function UserProfile() {
         progress: undefined,
         theme: "light",
       });
+      formData.password = '';
       setLoading(false);
     } catch (error) {
       console.error(error);
@@ -69,7 +74,11 @@ export default function UserProfile() {
 
   const getUser = async () => {
     try {
-      const response = await axios.get(`${BASE_URL}/user/get-user/${currentUser._id}`);
+      const response = await axios.get(`${BASE_URL}/user/get-user/${currentUser._id}`, {
+        headers: {
+          authorization: currentUser.token,
+        },
+      });
       // console.log(response.data);
       setFormData({
         username: response.data.username,

@@ -41,9 +41,13 @@ export default function LandingPage() {
     const dispatch = useDispatch();
 
     const getAllResumeData = async () => {
-        console.log('entered');
+        // console.log('entered');
         try {
-            const response = await axios.get(`${BASE_URL}/data/get-all-resume-data?id=${currentUser._id}`);
+            const response = await axios.get(`${BASE_URL}/data/get-all-resume-data?id=${currentUser._id}`, {
+                headers: {
+                    authorization: currentUser.token,
+                },
+            });
             // console.log("response: ", response.data.resumeData[0]);
             const resumeData = response.data.resumeData[0];
             // console.log('Education:', resumeData.education[0])
