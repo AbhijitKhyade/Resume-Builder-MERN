@@ -38,6 +38,6 @@ app.use((err, req, res, next) => {
 
 
 app.listen(process.env.PORT, () => {
-     console.log(`Server is working on https://resume-builder-mern-eight.vercel.app:${process.env.PORT}`);
-    // console.log(`Server is working on http://localhost:${process.env.PORT}`);
+    //  console.log(`Server is working on https://resume-builder-mern-eight.vercel.app:${process.env.PORT}`);
+    console.log(`Server is working on http://localhost:${process.env.PORT}`);
 });

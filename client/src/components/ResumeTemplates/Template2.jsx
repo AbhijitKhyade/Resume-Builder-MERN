@@ -18,6 +18,8 @@ import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import html2canvas from 'html2canvas';
 import { jsPDF } from 'jspdf';
+import { BASE_URL } from "../../api";
+import axios from "axios";
 
 
 export default function Template2() {
@@ -29,39 +31,96 @@ export default function Template2() {
   const [congratsVisible, setCongratsVisible] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const handleDownload = () => {
+  const getAllStyles = () => {
+    const styleSheets = document.styleSheets;
+    let styles = '';
+
+    // Get all stylesheet rules
+    for (let i = 0; i < styleSheets.length; i++) {
+      const sheet = styleSheets[i];
+      try {
+        const rules = sheet.cssRules || sheet.rules;
+        for (let j = 0; j < rules.length; j++) {
+          const rule = rules[j];
+          // Only include relevant styles (you can add more conditions)
+          if (rule.selectorText && (
+            rule.selectorText.includes('resume-container') ||
+            rule.selectorText.includes('MuiPaper') ||
+            rule.selectorText.includes('name-heading') ||
+            // Add more selectors as needed
+            rule.selectorText.includes('user-detail')
+          )) {
+            styles += rule.cssText + '\n';
+          }
+        }
+      } catch (e) {
+        console.warn('Could not access stylesheet rules', e);
+      }
+    }
+
+    // Add your custom CSS file content
+    styles += `
+      // Add any additional specific styles needed for PDF
+      .resume-container {
+        background-color: white !important;
+        box-shadow: none !important;
+      }
+    `;
+
+    return styles;
+  };
+
+  const handleDownload = async () => {
     try {
+      setLoading(true);
       const resumeContainer = document.querySelector(".resume-container");
 
-      if (resumeContainer) {
-        setLoading(true);
-        const opt = {
-          margin: 0.1,
-          filename: 'user-resume.pdf',
-          image: { type: 'jpeg', quality: 1.00 },
-          html2canvas: { scale: 4 },
-          jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' },
-          pagebreak: { mode: ['avoid-all', 'css', 'legacy'] } // Ensure proper page breaks
-        };
-
-        html2pdf().set(opt).from(resumeContainer).save().then(() => {
-          setLoading(false); // End loading state after PDF is generated
-          setCongratsVisible(true); // Trigger Confetti effect
-
-          // Reset confetti after 5 seconds
-          setTimeout(() => {
-            setCongratsVisible(false);
-          }, 5000);
-        });
-      } else {
-        console.error("Resume container not found.");
-        setLoading(false);
+      if (!resumeContainer) {
+        throw new Error("Resume container not found");
       }
+
+      // Get the HTML content
+      const html = resumeContainer.innerHTML;
+
+      // Get all relevant styles
+      const css = getAllStyles();
+
+      // Make API call to backend
+      const response = await axios.post(`${BASE_URL}/data/generate-resume`, {
+        html,
+        css
+      }, {
+        responseType: 'blob',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+
+      // Create download link for PDF
+      const blob = new Blob([response.data], { type: 'application/pdf' });
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `${profile.firstName}-${profile.lastName}-Resume.pdf`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(url);
+
+      setLoading(false);
+      setCongratsVisible(true);
+
+      // Reset confetti after 5 seconds
+      setTimeout(() => {
+        setCongratsVisible(false);
+      }, 5000);
+
     } catch (error) {
       console.error("Error generating PDF:", error);
       setLoading(false);
     }
   };
+
 
 
   const customStyle = {

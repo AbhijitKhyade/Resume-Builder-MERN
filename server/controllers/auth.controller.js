@@ -25,6 +25,7 @@ const googleSignIn = async (req, res) => {
                 password: hashedPassword,
                 avatar: req.body.avatar
             });
+            console.log('first time user', user);
 
             // Save the new user
             await user.save();
