@@ -15,12 +15,16 @@ const initialState = {
     city2: "",
     percentage: "",
     board1: "",
+    stream: "",
+    jeePercentile: "",
+    mhtcetPercentile: "",
     school: "",
     startYear3: "",
     endYear3: "",
     city3: "",
     percentage2: "",
     board2: "",
+    isEducationUpdated: false,
 };
 
 const educationSlice = createSlice({

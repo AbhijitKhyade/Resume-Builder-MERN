@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import {
+  Button,
   Card,
   CardContent,
   CardHeader,
@@ -20,18 +21,38 @@ import { updateEducation } from "../redux/educationSlice";
 import { Link } from 'react-router-dom';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { showSuccessToast } from "./ToastNotifications";
+import { Beenhere } from "@mui/icons-material";
 
 const Education = () => {
   const dispatch = useDispatch();
-  const education = useSelector((state) => state.educationDetails);
+  const currentEducation = useSelector((state) => state.educationDetails);
 
-  // const handleChange = (event) => {
-  //   const { name, value } = event.target;
-  //   dispatch(updateEducation({ [name]: value }));
-  // };
+
+  // Local state to hold profile data temporarily
+  const [educationData, setEducationData] = useState(currentEducation);
+
+  // Check if profile is saved from Redux state
+  const isEducationUpdated = currentEducation.isEducationUpdated;
+  const [showWarning, setShowWarning] = useState(false);
+
   const handleChange = (event) => {
     const { name, value } = event.target;
-    dispatch(updateEducation({ ...education, [name]: value }));
+    console.log('value', value);
+    setEducationData((prevData) => ({ ...prevData, [name]: value }));
+  };
+
+  const handleSave = () => {
+    dispatch(updateEducation({ ...educationData, isEducationUpdated: true })); // Update profile and mark it as saved
+    showSuccessToast("Education details saved successfully");
+    setShowWarning(false);  // Hide warning message after save
+  };
+
+  const handleNavigate = (e) => {
+    if (!isEducationUpdated) {
+      e.preventDefault();  // Prevent navigation if profile is not saved
+      setShowWarning(true);  // Show warning message
+    }
   };
 
 
@@ -58,6 +79,8 @@ const Education = () => {
   const higherCollegeBoard = ["Maharashtra State Board", "CBSE", "ICSE", "Diploma"];
   const schoolBoard = ["Maharashtra State Board", "CBSE", "ICSE"];
 
+  const streams = ['PCM', 'PCB', 'PCMB'];
+
   return (
     <div style={containerStyle}>
       <Card>
@@ -79,7 +102,7 @@ const Education = () => {
               </Typography>
             </div>
             {/* Row 1 */}
-            <Grid container spacing={1} alignItems="center" lg={12} mb={2}>
+            <Grid container spacing={1} alignItems="center" lg={12} >
               <Grid item md={4} sm={12} xs={12} lg={4}>
                 <TextField
                   margin="dense"
@@ -98,7 +121,7 @@ const Education = () => {
                       </InputAdornment>
                     ),
                   }}
-                  value={education.college}
+                  value={educationData.college || ""}
                   onChange={handleChange}
                 />
               </Grid>
@@ -110,7 +133,7 @@ const Education = () => {
                   name="year"
                   label="Year"
                   style={{ width: "100%" }}
-                  value={education.year}
+                  value={educationData.year || ""}
                   onChange={handleChange}
                 >
                   <MenuItem value="F.E">F.E</MenuItem>
@@ -129,7 +152,7 @@ const Education = () => {
                   label="Field of Study"
                   style={{ width: "100%" }}
                   required
-                  value={education.field}
+                  value={educationData.field || ""}
                   onChange={handleChange}
                 >
                   <MenuItem value="" disabled>
@@ -145,7 +168,7 @@ const Education = () => {
               </Grid>
             </Grid>
             {/* Row 2 */}
-            <Grid container spacing={1} alignItems="center" lg={12} mb={2}>
+            <Grid container spacing={1} alignItems="center" lg={12} >
               <Grid item md={4} sm={12} xs={12} lg={4}>
                 <TextField
                   select
@@ -155,7 +178,7 @@ const Education = () => {
                   label="Select Branch"
                   style={{ width: "100%" }}
                   required
-                  value={education.branch}
+                  value={educationData.branch || ""}
                   onChange={handleChange}
                 >
                   <MenuItem value="" disabled>
@@ -186,7 +209,7 @@ const Education = () => {
                       </InputAdornment>
                     ),
                   }}
-                  value={education.startYear}
+                  value={educationData.startYear || ""}
                   onChange={handleChange}
                 >
                   <MenuItem value="" disabled>
@@ -217,7 +240,7 @@ const Education = () => {
                       </InputAdornment>
                     ),
                   }}
-                  value={education.endYear}
+                  value={educationData.endYear || ""}
                   onChange={handleChange}
                 >
                   <MenuItem value="" disabled>
@@ -233,7 +256,7 @@ const Education = () => {
               </Grid>
             </Grid>
             {/* Row 3 */}
-            <Grid container spacing={1} alignItems="center" lg={12} mb={2}>
+            <Grid container spacing={1} alignItems="center" lg={12} >
               <Grid item md={6} sm={12} xs={12} lg={6}>
                 <TextField
                   margin="dense"
@@ -250,7 +273,7 @@ const Education = () => {
                       </InputAdornment>
                     ),
                   }}
-                  value={education.city}
+                  value={educationData.city || ""}
                   onChange={handleChange}
                 />
               </Grid>
@@ -270,7 +293,7 @@ const Education = () => {
                       </InputAdornment>
                     ),
                   }}
-                  value={education.grades}
+                  value={educationData.grades || ""}
                   onChange={handleChange}
                 />
               </Grid>
@@ -303,7 +326,7 @@ const Education = () => {
                       </InputAdornment>
                     ),
                   }}
-                  value={education.higherCollege}
+                  value={educationData.higherCollege || ""}
                   onChange={handleChange}
                 />
               </Grid>
@@ -324,7 +347,7 @@ const Education = () => {
                       </InputAdornment>
                     ),
                   }}
-                  value={education.startYear2}
+                  value={educationData.startYear2 || ""}
                   onChange={handleChange}
                 >
                   <MenuItem value="" disabled>
@@ -355,7 +378,7 @@ const Education = () => {
                       </InputAdornment>
                     ),
                   }}
-                  value={education.endYear2}
+                  value={educationData.endYear2 || ""}
                   onChange={handleChange}
                 >
                   <MenuItem value="" disabled>
@@ -389,7 +412,7 @@ const Education = () => {
                       </InputAdornment>
                     ),
                   }}
-                  value={education.city2}
+                  value={educationData.city2 || ""}
                   onChange={handleChange}
                 />
               </Grid>
@@ -410,7 +433,7 @@ const Education = () => {
                       </InputAdornment>
                     ),
                   }}
-                  value={education.percentage}
+                  value={educationData.percentage || ""}
                   onChange={handleChange}
                 />
               </Grid>
@@ -424,7 +447,7 @@ const Education = () => {
                   label="Select Board"
                   style={{ width: "100%" }}
                   required
-                  value={education.board1}
+                  value={educationData.board1 || ""}
                   onChange={handleChange}
                 >
                   <MenuItem value="" disabled>
@@ -437,6 +460,75 @@ const Education = () => {
                   ))}
                   <MenuItem value="">Clear Selection</MenuItem> {/* Add this line */}
                 </TextField>
+              </Grid>
+            </Grid>
+            {/* Row 3 */}
+            <Grid container spacing={1} alignItems="center" lg={12}>
+              <Grid item md={4} sm={12} xs={12} lg={4}>
+                <TextField
+                  select
+                  margin="dense"
+                  variant="outlined"
+                  name="stream"
+                  placeholder="Select Stream"
+                  label="Select Stream"
+                  style={{ width: "100%" }}
+                  required
+                  value={educationData.stream || ""}
+                  onChange={handleChange}
+                >
+                  <MenuItem value="" disabled>
+                    Select Stream
+                  </MenuItem>
+                  {streams.map((field) => (
+                    <MenuItem key={field} value={field}>
+                      {field}
+                    </MenuItem>
+                  ))}
+                  <MenuItem value="">Clear Selection</MenuItem> {/* Add this line */}
+                </TextField>
+              </Grid>
+              <Grid item md={4} sm={12} xs={12} lg={4}>
+                <TextField
+                  margin="dense"
+                  variant="outlined"
+                  type="text"
+                  name="jeePercentile"
+                  label="JEE Percentile"
+                  style={{ width: "100%" }}
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <IconButton>
+                          <GradeIcon />
+                        </IconButton>
+                      </InputAdornment>
+                    ),
+                  }}
+                  value={educationData.jeePercentile || ""}
+                  onChange={handleChange}
+                />
+              </Grid>
+              <Grid item md={4} sm={12} xs={12} lg={4}>
+                <TextField
+                  margin="dense"
+                  variant="outlined"
+                  type="text"
+                  name="mhtcetPercentile"
+                  label="MHTCET Percentile"
+                  style={{ width: "100%" }}
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <IconButton>
+                          {/* <LocationCityIcon /> */}
+                        </IconButton>
+                      </InputAdornment>
+                    ),
+                  }}
+                  value={educationData.mhtcetPercentile || ""}
+                  onChange={handleChange}
+                />
               </Grid>
             </Grid>
           </Grid>
@@ -457,7 +549,7 @@ const Education = () => {
                   name="school"
                   label="School Name"
                   style={{ width: "100%" }}
-                  value={education.school}
+                  value={educationData.school || ""}
                   required
                   onChange={handleChange}
                   InputProps={{
@@ -480,7 +572,7 @@ const Education = () => {
                   label="Start Year"
                   style={{ width: "100%" }}
                   onChange={handleChange}
-                  value={education.startYear3}
+                  value={educationData.startYear3 || ""}
                   InputProps={{
                     endAdornment: (
                       <InputAdornment position="end">
@@ -510,7 +602,7 @@ const Education = () => {
                   name="endYear3"
                   label="End Year"
                   style={{ width: "100%" }}
-                  value={education.endYear3}
+                  value={educationData.endYear3 || ""}
                   onChange={handleChange}
                   InputProps={{
                     endAdornment: (
@@ -544,7 +636,7 @@ const Education = () => {
                   name="city3"
                   label="City"
                   style={{ width: "100%" }}
-                  value={education.city3}
+                  value={educationData.city3 || ""}
                   onChange={handleChange}
                   InputProps={{
                     endAdornment: (
@@ -565,7 +657,7 @@ const Education = () => {
                   name="percentage2"
                   label="Percentage"
                   style={{ width: "100%" }}
-                  value={education.percentage2}
+                  value={educationData.percentage2 || ""}
                   onChange={handleChange}
                   InputProps={{
                     endAdornment: (
@@ -588,7 +680,7 @@ const Education = () => {
                   label="Select Board"
                   style={{ width: "100%" }}
                   required
-                  value={education.board2}
+                  value={educationData.board2 || ""}
                   onChange={handleChange}
                 >
                   <MenuItem value="" disabled>
@@ -610,14 +702,86 @@ const Education = () => {
       <Grid container spacing={2} alignItems="center" lg={12} >
         <Grid item md={12} sm={12} xs={12} lg={12} style={containerStyles}>
           <Link to={'/profile'} style={linkStyle}>
-            <ArrowBackIcon style={iconStyle} />
-            <h4>Profile Section</h4>
+            <Button
+              onClick={handleNavigate}
+              variant="contained"
+              sx={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                gap: '5px',
+                marginTop: '20px',
+                px: '20px',
+                backgroundColor: 'var(--btn)',
+                color: 'black',
+                '&:hover': {
+                  backgroundColor: 'var(--btnHover)'
+                }
+              }}
+              disabled={!isEducationUpdated}
+            >
+              <ArrowBackIcon style={iconStyle} />
+              Previous
+            </Button>
           </Link>
+          <div style={linkStyle}>
+            <Button
+              variant="contained"
+              onClick={handleSave}
+              sx={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                gap: '5px',
+                marginTop: '20px',
+                px: '20px',
+                backgroundColor: 'var(--btn)',
+                color: 'black',
+                '&:hover': {
+                  backgroundColor: 'var(--btnHover)'
+                }
+              }}
+            >
+              <Beenhere sx={{ fontSize: '20px' }} />
+              Save
+            </Button>
+          </div>
           <Link to={'/projects'} style={linkStyle}>
-            <h4>Project Section</h4>
-            <ArrowForwardIcon style={iconStyle} />
+            <Button
+              onClick={handleNavigate}
+              variant="contained"
+              sx={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                gap: '5px',
+                marginTop: '20px',
+                px: '20px',
+                backgroundColor: 'var(--btn)',
+                color: 'black',
+                '&:hover': {
+                  backgroundColor: 'var(--btnHover)'
+                }
+              }}
+              disabled={!isEducationUpdated}
+            >
+              Next
+              <ArrowForwardIcon style={iconStyle} />
+            </Button>
           </Link>
+
         </Grid>
+
+        <div style={{
+          display: 'flex', justifyContent: 'center',
+          alignItems: 'center',
+          width: '100%',
+          mt: '-20px'
+        }}>
+          <Typography color="error" variant="body2" style={{ marginTop: '10px' }}>
+            Please save your education details before proceeding.
+          </Typography>
+        </div>
       </Grid>
     </div>
   );

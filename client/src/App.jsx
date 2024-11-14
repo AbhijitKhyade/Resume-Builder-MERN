@@ -21,6 +21,7 @@ import Experience from './components/Experience';
 import ExtraDetails from './components/ExtraDetails';
 import ResumeLayout from './components/ResumeLayout';
 import ErrorPage from './pages/ErrorPage';
+import Achievements from './components/Achievements';
 // import Demo from './pages/Demo';
 
 
@@ -43,7 +44,8 @@ function App() {
                   <Route path='/education' element={<Education />} />
                   <Route path='/projects' element={<Projects />} />
                   <Route path='/experience' element={<Experience />} />
-                  <Route path='/extraDetails' element={<ExtraDetails />} />
+                  <Route path='/skills' element={<ExtraDetails />} />
+                  <Route path='/achievements' element={<Achievements />} />
                 </Route>
                 <Route path='/resume/:template' element={<Resume />} />
                 <Route path='/contact-us' element={<Contact />} />

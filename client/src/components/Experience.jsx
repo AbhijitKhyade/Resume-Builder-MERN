@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   Card,
   CardContent,
@@ -20,21 +20,38 @@ import Tooltip from "@mui/material/Tooltip";
 import { Link } from "react-router-dom";
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { Beenhere } from "@mui/icons-material";
+import { showSuccessToast } from "./ToastNotifications";
+import ReactQuill from 'react-quill'; // Import Quill editor
+import 'react-quill/dist/quill.snow.css'; // Import Quill's default styles
+import ReactDatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 const Experience = () => {
   const dispatch = useDispatch();
-  const experiences = useSelector((state) => state.experienceDetails);
+  const currentExperiences = useSelector((state) => state.experienceDetails);
   const [showInputFields, setShowInputFields] = useState(false);
 
+  // Local state to hold profile data temporarily
+  const [experienceData, setExperienceData] = useState(currentExperiences);
+
+  const [showWarning, setShowWarning] = useState(false);
 
   const handleInputChange = (index, event, content) => {
     if (event) {
       const { name, value } = event.target;
-      // For regular text input
+      setExperienceData((prevData) => {
+        const newProjects = [...prevData];
+        newProjects[index] = { ...newProjects[index], [name]: value };
+        return newProjects;
+      });
       dispatch(updateExperience({ index, field: name, value }));
     } else {
-      // console.log("Index:", index);
-      // console.log("Content:", content);
+      setExperienceData((prevData) => {
+        const newProjects = [...prevData];
+        newProjects[index] = { ...newProjects[index], desc: content };
+        return newProjects;
+      });
       dispatch(updateExperience({ index, field: "desc", value: content }));
     }
   };
@@ -57,6 +74,39 @@ const Experience = () => {
     justifyContent: "center",
     flexDirection: "column",
   };
+
+  const handleSave = () => {
+    console.log('exp data', experienceData);
+
+    // Assuming projectData is an array of objects with fields to update
+    const updates = experienceData.map((experience, index) => {
+      return Object.keys(experience).map(field => ({
+        index,
+        field,
+        value: experience[field]
+      }));
+    }).flat();
+
+    // console.log('updates', updates);
+
+    updates.forEach(update => {
+      dispatch(updateExperience(update)); // Dispatch the action with each update
+    });
+
+    showSuccessToast("Experience details saved successfully");
+    setShowWarning(false);  // Hide warning message after save
+  };
+
+  const handleNavigate = (e) => {
+    setShowWarning(true);  // Show warning message
+
+  };
+
+
+  useEffect(() => {
+    // Sync the local projectData with Redux state whenever it's updated
+    setExperienceData(currentExperiences);
+  }, [currentExperiences]);
 
   const contentExpr = (
     <div>
@@ -82,7 +132,7 @@ const Experience = () => {
       </Card>
       <CardContent>
         {
-          experiences?.map((experience, index) => (
+          experienceData?.map((experience, index) => (
             <div key={index}>
               <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                 <Typography variant="h5" sx={{ marginTop: "8px" }}>
@@ -104,7 +154,7 @@ const Experience = () => {
                     name="role"
                     label="Role"
                     style={{ width: "100%" }}
-                    value={experience.role}
+                    value={experienceData[index].role}
                     onChange={(event) => handleInputChange(index, event)}
 
                   />
@@ -122,7 +172,7 @@ const Experience = () => {
                     name="institute"
                     label="Institute/Organisation"
                     style={{ width: "100%" }}
-                    value={experience.institute}
+                    value={experienceData[index].institute}
                     onChange={(event) => handleInputChange(index, event)}
 
                   />
@@ -140,7 +190,7 @@ const Experience = () => {
                     // label="Start Date"
                     type="date"
                     style={{ width: "100%" }}
-                    value={experience.start_date}
+                    value={experienceData[index].start_date}
                     onChange={(event) => handleInputChange(index, event)}
                   />
                 </Grid>
@@ -155,8 +205,9 @@ const Experience = () => {
                     // label="End Date"
                     type="date"
                     style={{ width: "100%" }}
-                    value={experience.end_date}
+                    value={experienceData[index].end_date}
                     onChange={(event) => handleInputChange(index, event)}
+                    
                   />
                 </Grid>
               </Grid>
@@ -166,13 +217,6 @@ const Experience = () => {
 
                   <Typography variant="h6" sx={{ marginTop: "8px", display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <p style={{ display: 'flex', gap: 3, alignItems: 'center' }}>Description
-                      <Tooltip
-                        title={<Box sx={{ p: 1, fontSize: '0.9rem' }}>{"Use next line for each new sentence"}</Box>}
-                        placement="top"
-                        arrow
-                      >
-                        <p style={{ fontSize: '1rem' }}> ?</p>
-                      </Tooltip>
                     </p>
 
                     <p>
@@ -185,26 +229,14 @@ const Experience = () => {
                       </Tooltip>
                     </p>
                   </Typography>
-                  <TextField
-                    margin="dense"
-                    variant="outlined"
-                    type="text"
-                    multiline
-                    rows={4}
+
+                  <ReactQuill
+                    value={experienceData[index].desc}
+                    onChange={(value) => handleInputChange(index, { target: { name: "desc", value } })}
                     name="desc"
-                    label="Description"
+                    required
+                    theme="snow"
                     style={{ width: "100%" }}
-                    value={experience.desc}
-                    onChange={(event) => handleInputChange(index, event)}
-                    InputProps={{
-                      endAdornment: (
-                        <InputAdornment position="end">
-                          <IconButton>
-                            <DescriptionIcon />
-                          </IconButton>
-                        </InputAdornment>
-                      ),
-                    }}
                   />
                 </Grid>
               </Grid>
@@ -226,14 +258,85 @@ const Experience = () => {
       <Grid container spacing={2} alignItems="center" lg={12} >
         <Grid item md={12} sm={12} xs={12} lg={12} style={containerStyles}>
           <Link to={'/projects'} style={linkStyle}>
-            <ArrowBackIcon style={iconStyle} />
-            <h4>Project Section</h4>
+            <Button
+              onClick={handleNavigate}
+              variant="contained"
+              sx={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                gap: '5px',
+                marginTop: '20px',
+                px: '20px',
+                backgroundColor: 'var(--btn)',
+                color: 'black',
+                '&:hover': {
+                  backgroundColor: 'var(--btnHover)'
+                }
+              }}
+            >
+              <ArrowBackIcon style={iconStyle} />
+              Previous
+            </Button>
           </Link>
-          <Link to={'/extraDetails'} style={linkStyle}>
-            <h4>ExtraDetails Section</h4>
-            <ArrowForwardIcon style={iconStyle} />
+          <div style={linkStyle}>
+            <Button
+              variant="contained"
+              onClick={handleSave}
+              sx={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                gap: '5px',
+                marginTop: '20px',
+                px: '20px',
+                backgroundColor: 'var(--btn)',
+                color: 'black',
+                '&:hover': {
+                  backgroundColor: 'var(--btnHover)'
+                }
+              }}
+            >
+              <Beenhere sx={{ fontSize: '20px' }} />
+              Save
+            </Button>
+          </div>
+          <Link to={'/skills'} style={linkStyle}>
+            <Button
+              onClick={handleNavigate}
+              variant="contained"
+              sx={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                gap: '5px',
+                marginTop: '20px',
+                px: '20px',
+                backgroundColor: 'var(--btn)',
+                color: 'black',
+                '&:hover': {
+                  backgroundColor: 'var(--btnHover)'
+                }
+              }}
+
+            >
+              Next
+              <ArrowForwardIcon style={iconStyle} />
+            </Button>
           </Link>
+
         </Grid>
+
+        <div style={{
+          display: 'flex', justifyContent: 'center',
+          alignItems: 'center',
+          width: '100%',
+          mt: '-20px'
+        }}>
+          <Typography color="error" variant="body2" style={{ marginTop: '10px' }}>
+            Please save your experience details before proceeding.
+          </Typography>
+        </div>
       </Grid>
     </div >
   );

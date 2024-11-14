@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Card,
   CardContent,
@@ -21,15 +21,31 @@ import Tooltip from "@mui/material/Tooltip";
 import { Link } from 'react-router-dom';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { showSuccessToast } from "./ToastNotifications";
+import { Beenhere } from "@mui/icons-material";
+
+import ReactQuill from 'react-quill'; // Import Quill editor
+import 'react-quill/dist/quill.snow.css'; // Import Quill's default styles
 
 const Projects = () => {
   const dispatch = useDispatch();
-  const projects = useSelector((state) => state.projectDetails);
+  const currentProjects = useSelector((state) => state.projectDetails);
   const [showInputFields, setShowInputFields] = useState(false);
+
+  // Local state to hold profile data temporarily
+  const [projectData, setProjectData] = useState(currentProjects);
+
+  // Check if profile is saved from Redux state
+  const isProjectUpdated = currentProjects.isProjectUpdated;
+  const [showWarning, setShowWarning] = useState(false);
 
   const handleInputChange = (index, event) => {
     const { name, value } = event.target;
-    dispatch(updateProject({ index, field: name, value }));
+    setProjectData((prevData) => {
+      const newProjects = [...prevData];
+      newProjects[index] = { ...newProjects[index], [name]: value };
+      return newProjects;
+    });
   };
 
   const handleAddProject = () => {
@@ -41,6 +57,42 @@ const Projects = () => {
     dispatch(deleteProject(index));
     setShowInputFields(false);
   };
+
+
+  const handleSave = () => {
+    console.log('projectData', projectData);
+
+    // Assuming projectData is an array of objects with fields to update
+    const updates = projectData.map((project, index) => {
+      return Object.keys(project).map(field => ({
+        index,
+        field,
+        value: project[field]
+      }));
+    }).flat();
+
+    // console.log('updates', updates);
+
+    updates.forEach(update => {
+      dispatch(updateProject(update)); // Dispatch the action with each update
+    });
+
+    showSuccessToast("Project details saved successfully");
+    setShowWarning(false);  // Hide warning message after save
+  };
+
+  const handleNavigate = (e) => {
+    setShowWarning(true);  // Show warning message
+
+  };
+
+
+  useEffect(() => {
+    // Sync the local projectData with Redux state whenever it's updated
+    setProjectData(currentProjects);
+  }, [currentProjects]);
+
+
 
 
 
@@ -61,13 +113,7 @@ const Projects = () => {
     </div>
   );
 
-  const TechStack = (
-    <div>
-      <p>1. Provide the tech stack used in the project.</p>
-      <p>eg.</p>
-      <p>React, Redux, Material-UI, Node.js, Express.js, MongoDB</p>
-    </div>
-  );
+
   return (
     <div style={containerStyle}>
       <Card>
@@ -80,7 +126,7 @@ const Projects = () => {
         />
       </Card>
       <CardContent>
-        {projects?.map((project, index) => (
+        {projectData?.map((project, index) => (
           <div key={index}>
             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
               <Typography variant="h5" sx={{ marginTop: "8px" }}>
@@ -102,7 +148,7 @@ const Projects = () => {
                   name="title"
                   label={`Project Title`}
                   style={{ width: "100%" }}
-                  value={project.title}
+                  value={projectData[index].title || ""}
                   onChange={(event) => handleInputChange(index, event)}
                   required
                   InputProps={{
@@ -119,13 +165,7 @@ const Projects = () => {
               <Grid item md={12} sm={12} xs={12} lg={12}>
                 <Typography variant="h6" sx={{ marginTop: "8px", display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                   <p style={{ display: 'flex', gap: 3, alignItems: 'center' }}>Project Description
-                    <Tooltip
-                      title={<Box sx={{ p: 1, fontSize: '0.9rem' }}>{"Use next line for each new sentence"}</Box>}
-                      placement="top"
-                      arrow
-                    >
-                      <p style={{ fontSize: '1rem' }}> ?</p>
-                    </Tooltip>
+
                   </p>
 
                   <Tooltip
@@ -136,27 +176,13 @@ const Projects = () => {
                     <p style={{ fontSize: '1rem' }}><i class="fa-solid fa-circle-info"></i></p>
                   </Tooltip>
                 </Typography>
-                <TextField
-                  margin="dense"
-                  variant="outlined"
-                  type="text"
+                <ReactQuill
+                  value={projectData[index].description || ""}
+                  onChange={(value) => handleInputChange(index, { target: { name: "description", value } })}
                   name="description"
-                  multiline
-                  rows={4}
-                  label={`Project Description`}
-                  style={{ width: "100%" }}
-                  value={project.description}
-                  onChange={(event) => handleInputChange(index, event)}
                   required
-                  InputProps={{
-                    endAdornment: (
-                      <InputAdornment position="end">
-                        <IconButton>
-                          <DescriptionIcon />
-                        </IconButton>
-                      </InputAdornment>
-                    ),
-                  }}
+                  theme="snow"
+                  style={{ width: "100%" }}
                 />
               </Grid>
               <Grid item md={12} sm={12} xs={12} lg={12}>
@@ -170,7 +196,7 @@ const Projects = () => {
                   name="link"
                   label={`Project Link`}
                   style={{ width: "100%" }}
-                  value={project.link}
+                  value={projectData[index].link || ""}
                   onChange={(event) => handleInputChange(index, event)}
                   InputProps={{
                     endAdornment: (
@@ -185,25 +211,16 @@ const Projects = () => {
               </Grid>
               <Grid item md={12} sm={12} xs={12} lg={12}>
                 <Typography variant="h6" sx={{ marginTop: "8px", display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <p>Project Tech Stack</p>
-                  <p>
-                    <Tooltip
-                      title={<Box sx={{ p: 1, fontSize: '0.9rem' }}>{TechStack}</Box>}
-                      placement="top"
-                      arrow
-                    >
-                      <p style={{ fontSize: '1rem' }}><i class="fa-solid fa-circle-info"></i></p>
-                    </Tooltip>
-                  </p>
+                  <p>Project Github Url </p>
                 </Typography>
                 <TextField
                   margin="dense"
                   variant="outlined"
                   type="text"
-                  name="techStack"
-                  label={`Tech Stack`}
+                  name="projectGithubUrl"
+                  label={`Project Github Url`}
                   style={{ width: "100%" }}
-                  value={project.techStack}
+                  value={projectData[index].projectGithubUrl || ""}
                   onChange={(event) => handleInputChange(index, event)}
                 // InputProps={{
                 //   endAdornment: (
@@ -230,17 +247,90 @@ const Projects = () => {
           Add Project
         </Button>
       </CardContent>
+
+
       <Grid container spacing={2} alignItems="center" lg={12} >
         <Grid item md={12} sm={12} xs={12} lg={12} style={containerStyles}>
           <Link to={'/education'} style={linkStyle}>
-            <ArrowBackIcon style={iconStyle} />
-            <h4>Education Section</h4>
+            <Button
+              onClick={handleNavigate}
+              variant="contained"
+              sx={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                gap: '5px',
+                marginTop: '20px',
+                px: '20px',
+                backgroundColor: 'var(--btn)',
+                color: 'black',
+                '&:hover': {
+                  backgroundColor: 'var(--btnHover)'
+                }
+              }}
+            >
+              <ArrowBackIcon style={iconStyle} />
+              Previous
+            </Button>
           </Link>
+          <div style={linkStyle}>
+            <Button
+              variant="contained"
+              onClick={handleSave}
+              sx={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                gap: '5px',
+                marginTop: '20px',
+                px: '20px',
+                backgroundColor: 'var(--btn)',
+                color: 'black',
+                '&:hover': {
+                  backgroundColor: 'var(--btnHover)'
+                }
+              }}
+            >
+              <Beenhere sx={{ fontSize: '20px' }} />
+              Save
+            </Button>
+          </div>
           <Link to={'/experience'} style={linkStyle}>
-            <h4>Experience Section</h4>
-            <ArrowForwardIcon style={iconStyle} />
+            <Button
+              onClick={handleNavigate}
+              variant="contained"
+              sx={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                gap: '5px',
+                marginTop: '20px',
+                px: '20px',
+                backgroundColor: 'var(--btn)',
+                color: 'black',
+                '&:hover': {
+                  backgroundColor: 'var(--btnHover)'
+                }
+              }}
+
+            >
+              Next
+              <ArrowForwardIcon style={iconStyle} />
+            </Button>
           </Link>
+
         </Grid>
+
+        <div style={{
+          display: 'flex', justifyContent: 'center',
+          alignItems: 'center',
+          width: '100%',
+          mt: '-20px'
+        }}>
+          <Typography color="error" variant="body2" style={{ marginTop: '10px' }}>
+            Please save your project details before proceeding.
+          </Typography>
+        </div>
       </Grid>
     </div>
   );

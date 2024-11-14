@@ -39,6 +39,7 @@ import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import axios from "axios";
 import { BASE_URL } from "../api";
+import { Beenhere } from "@mui/icons-material";
 
 const ExtraDetails = () => {
   const currentUser = useSelector((state) => state.user.currentUser);
@@ -161,6 +162,10 @@ const ExtraDetails = () => {
 
   };
 
+  const handleNavigate = (e) => {
+
+  };
+
 
 
   return (
@@ -169,7 +174,7 @@ const ExtraDetails = () => {
         <CardHeader
           title={
             <Typography variant="h5" align="center" fontWeight="bold">
-              Extra Details
+              Skills Details
             </Typography>
           }
         />
@@ -187,7 +192,7 @@ const ExtraDetails = () => {
           <div>
             <Typography variant="h6" sx={{ marginTop: "8px", display: 'flex', gap: '4px', alignItems: 'center', paddingLeft: '10px' }}>
               <p style={{ display: 'flex', gap: 3, alignItems: 'center' }}>
-                Languages
+                Programming Languages
                 <Tooltip
                   title={<Box sx={{ p: 1, fontSize: '0.9rem' }}>{"eg: C, C++, Java, Python"}</Box>}
                   placement="top"
@@ -276,7 +281,7 @@ const ExtraDetails = () => {
           </div>
 
           {/* WebFramework Skills*/}
-          <div>
+          {/* <div>
             <Typography variant="h6" sx={{ marginTop: "8px", display: 'flex', gap: '4px', alignItems: 'center', paddingLeft: '10px' }}>
               <p style={{ display: 'flex', gap: 3, alignItems: 'center' }}>
                 Web Frameworks/Libraries
@@ -320,7 +325,7 @@ const ExtraDetails = () => {
               Add WebFrameworks Skill
             </Button>
 
-          </div>
+          </div> */}
 
           {/* Database Skills*/}
           <div>
@@ -368,13 +373,13 @@ const ExtraDetails = () => {
             </Button>
           </div>
 
-          {/* Other Skills*/}
+          {/* Developer Tools*/}
           <div>
             <Typography variant="h6" sx={{ marginTop: "8px", display: 'flex', gap: '4px', alignItems: 'center', paddingLeft: '10px' }}>
               <p style={{ display: 'flex', gap: 3, alignItems: 'center' }}>
-                Other Skills
+                Developer Tools
                 <Tooltip
-                  title={<Box sx={{ p: 1, fontSize: '0.9rem' }}>{"eg: Leadership, Management,Teamwork"}</Box>}
+                  title={<Box sx={{ p: 1, fontSize: '0.9rem' }}>{"eg: GitHub, Postman, Vscode, Git"}</Box>}
                   placement="top"
                   arrow
                 >
@@ -409,14 +414,14 @@ const ExtraDetails = () => {
               }}
               onClick={() => handleAddItem("other")}
             >
-              Add Other Skills
+              Add Developer Tools
             </Button>
           </div>
         </div>
         {/* <hr style={{ margin: '10px 0 10px 0' }} /> */}
 
         {/* Achievements */}
-        <div>
+        {/* <div>
           <Typography variant="h5" sx={{ marginTop: "8px" }}>
             Achievements
           </Typography>
@@ -458,11 +463,11 @@ const ExtraDetails = () => {
           >
             Add Achievement
           </Button>
-        </div>
+        </div> */}
         {/* <hr style={{ margin: '10px 0 10px 0' }} /> */}
 
         {/* Extra Curricular Activities */}
-        <div>
+        {/* <div>
           <Typography variant="h5" sx={{ marginTop: "8px" }}>
             Extra Curricular Activities
           </Typography>
@@ -508,7 +513,7 @@ const ExtraDetails = () => {
           >
             Add Activities
           </Button>
-        </div>
+        </div> */}
 
         {/* Core Subjects */}
         {/* <div>
@@ -556,30 +561,91 @@ const ExtraDetails = () => {
         </div> */}
       </CardContent>
 
-      <p style={{ display: 'flex', justifyContent: 'center', color: 'red' }}>*Please save your data to get edited next time</p>
-
-      <div style={{ display: 'flex', justifyContent: 'center', marginTop: '15px' }}>
-        <Button
-          variant="contained" sx={{
-            marginTop: "15px", backgroundColor: "var(--btn)", color: 'black', '&:hover': { backgroundColor: "var(--btnHover)" },
-          }}
-          onClick={() => handleSave()}
-        >
-          Save Your Data
-        </Button>
-      </div>
+   
 
       <Grid container spacing={2} alignItems="center" lg={12} >
         <Grid item md={12} sm={12} xs={12} lg={12} style={containerStyles}>
           <Link to={'/experience'} style={linkStyle}>
-            <ArrowBackIcon style={iconStyle} />
-            <h4>Experience Section</h4>
+            <Button
+              onClick={handleNavigate}
+              variant="contained"
+              sx={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                gap: '5px',
+                marginTop: '20px',
+                px: '20px',
+                backgroundColor: 'var(--btn)',
+                color: 'black',
+                '&:hover': {
+                  backgroundColor: 'var(--btnHover)'
+                }
+              }}
+            >
+              <ArrowBackIcon style={iconStyle} />
+              Previous
+            </Button>
           </Link>
-          <Link to={'/templates'} style={linkStyle}>
-            <h4>Resume Templates</h4>
-            <ArrowForwardIcon style={iconStyle} />
+          <div style={linkStyle}>
+            <Button
+              variant="contained"
+              onClick={handleSave}
+              sx={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                gap: '5px',
+                marginTop: '20px',
+                px: '20px',
+                backgroundColor: 'var(--btn)',
+                color: 'black',
+                '&:hover': {
+                  backgroundColor: 'var(--btnHover)'
+                }
+              }}
+            >
+              <Beenhere sx={{ fontSize: '20px' }} />
+              Save
+            </Button>
+          </div>
+          <Link to={'/achievements'} style={linkStyle}>
+            <Button
+              onClick={handleNavigate}
+              variant="contained"
+              sx={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                gap: '5px',
+                marginTop: '20px',
+                px: '20px',
+                backgroundColor: 'var(--btn)',
+                color: 'black',
+                '&:hover': {
+                  backgroundColor: 'var(--btnHover)'
+                }
+              }}
+
+            >
+              Next
+              <ArrowForwardIcon style={iconStyle} />
+            </Button>
           </Link>
+
         </Grid>
+
+        <div style={{
+          display: 'flex', justifyContent: 'center',
+          alignItems: 'center',
+          width: '100%',
+          mt: '-20px'
+        }}>
+          <Typography color="error" variant="body2" style={{ marginTop: '10px' }}>
+            Please save your skills details before proceeding.
+          </Typography>
+        </div>
+        
       </Grid>
     </div>
   );

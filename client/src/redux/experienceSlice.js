@@ -6,21 +6,17 @@ const experienceSlice = createSlice({
     name: "experience",
     initialState,
     reducers: {
-        // updateExperience: (state, action) => {
-        //     const { index, field, value } = action.payload;
-        //     // Create a new array with the updated experience object
-        //     const updatedState = state.map((experience, i) => {
-        //         if (i === index) {
-        //             return { ...experience, [field]: value };
-        //         }
-        //         return experience;
-        //     });
-        //     // console.log(updatedState);
-        //     return updatedState;
-        // },
         updateExperience: (state, action) => {
-            const { index, field, value } = action.payload;
-            state[index] = { ...state[index], [field]: value };
+            const updates = Array.isArray(action.payload) ? action.payload : [action.payload];
+            console.log('action.payload', action.payload);
+            const updatedExperiences = [...state]; // Create a copy of the state array
+            updates.forEach((update) => {
+                const { index, field, value } = update;
+                if (index !== undefined && field !== undefined && value !== undefined) {
+                    updatedExperiences[index] = { ...updatedExperiences[index], [field]: value }; // Update the specific project
+                }
+            });
+            return updatedExperiences; // Return updated state
         },
         addExperience: (state) => {
             state.push({ role: "", institute: "", start_date: "", end_date: "", desc: "" });

@@ -168,7 +168,7 @@ const Navbar = () => {
                 <MenuItem onClick={() => { navigate('/education'); handleClose(); }}>Education</MenuItem>
                 <MenuItem onClick={() => { navigate('/projects'); handleClose(); }}>Projects</MenuItem>
                 <MenuItem onClick={() => { navigate('/experience'); handleClose(); }}>Experience</MenuItem>
-                <MenuItem onClick={() => { navigate('/extraDetails'); handleClose(); }}>Extra Details</MenuItem>
+                <MenuItem onClick={() => { navigate('/skills'); handleClose(); }}>Extra Details</MenuItem>
               </Menu>
               <div className="avatar-container">
                 <Avatar

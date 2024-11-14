@@ -6,13 +6,12 @@ const initialState = {
     lastName: "",
     email: "",
     mobile: "",
-    aboutMe: "",
-    address: "",
     linkedIn: "",
     github: "",
     codechef: "",
     leetcode: "",
     codeforces: "",
+    isProfileUpdated: false,
 };
 
 const profileSlice = createSlice({

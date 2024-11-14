@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import {
+  Button,
   Card,
   CardContent,
   CardHeader,
@@ -20,17 +21,40 @@ import { useDispatch, useSelector } from "react-redux";
 import { updateProfile } from "../redux/profileSlice";
 import { Link } from 'react-router-dom';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import { Beenhere, Save, SaveAltOutlined, SaveAltTwoTone, SaveSharp } from "@mui/icons-material";
+import { showSuccessToast } from "./ToastNotifications";
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+
 
 const Profile = () => {
   const dispatch = useDispatch();
   const currentProfile = useSelector((state) => state.profileDetails);
 
-  // console.log("Profilepage:", currentProfile);
+  // Local state to hold profile data temporarily
+  const [profileData, setProfileData] = useState(currentProfile);
+
+  // Check if profile is saved from Redux state
+  const isProfileSaved = currentProfile.isProfileUpdated;
+  const [showWarning, setShowWarning] = useState(false);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
-    dispatch(updateProfile({ [name]: value }));
+    setProfileData((prevData) => ({ ...prevData, [name]: value }));
   };
+
+  const handleSave = () => {
+    dispatch(updateProfile({ ...profileData, isProfileUpdated: true })); // Update profile and mark it as saved
+    showSuccessToast("Profile details saved successfully");
+    setShowWarning(false);  // Hide warning message after save
+  };
+
+  const handleNavigate = (e) => {
+    if (!isProfileSaved) {
+      e.preventDefault();  // Prevent navigation if profile is not saved
+      setShowWarning(true);  // Show warning message
+    }
+  };
+
 
   const containerStyle = {
     marginTop: "30",
@@ -46,7 +70,7 @@ const Profile = () => {
         <CardHeader
           title={
             <Typography variant="h5" align="center" fontWeight="bold">
-              Personal Details
+              Profile Details
             </Typography>
           }
         />
@@ -63,7 +87,7 @@ const Profile = () => {
                 label="FirstName"
                 style={{ width: "100%" }}
                 required
-                value={currentProfile?.firstName}
+                value={profileData?.firstName || ""}
                 onChange={handleChange}
                 InputProps={{
                   endAdornment: (
@@ -85,7 +109,7 @@ const Profile = () => {
                 label="LastName"
                 style={{ width: "100%" }}
                 required
-                value={currentProfile?.lastName}
+                value={profileData?.lastName || ""}
                 onChange={handleChange}
                 InputProps={{
                   endAdornment: (
@@ -109,7 +133,7 @@ const Profile = () => {
                 label="Email"
                 style={{ width: "100%" }}
                 required
-                value={currentProfile?.email}
+                value={profileData?.email || ""}
                 onChange={handleChange}
                 InputProps={{
                   endAdornment: (
@@ -131,7 +155,7 @@ const Profile = () => {
                 label="MobileNo"
                 style={{ width: "100%" }}
                 required
-                value={currentProfile?.mobile}
+                value={profileData?.mobile || ""}
                 onChange={handleChange}
                 InputProps={{
                   endAdornment: (
@@ -145,59 +169,8 @@ const Profile = () => {
               />
             </Grid>
           </Grid>
-          {/* <Grid container spacing={2} alignItems="center" lg={12}>
-            <Grid item md={12} sm={12} xs={12} lg={12}>
-              <TextField
-                margin="dense"
-                variant="outlined"
-                type="text"
-                name="aboutMe"
-                label="About Me"
-                multiline
-                rows={2}
-                fullWidth
-                style={{ width: "100%" }}
-                value={currentProfile?.aboutMe}
-                onChange={handleChange}
-                InputProps={{
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      <IconButton>
-                        <PersonIcon />
-                      </IconButton>
-                    </InputAdornment>
-                  ),
-                }}
-              />
-            </Grid>
-          </Grid> */}
-          <Grid container spacing={2} alignItems="center" lg={12}>
-            <Grid item md={12} sm={12} xs={12} lg={12}>
-              <TextField
-                margin="dense"
-                variant="outlined"
-                type="text"
-                name="address"
-                label="Address"
-                multiline
-                rows={1}
-                fullWidth
-                style={{ width: "100%" }}
-                value={currentProfile?.address}
-                onChange={handleChange}
-                InputProps={{
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      <IconButton>
-                        <HomeIcon />
-                      </IconButton>
-                    </InputAdornment>
-                  ),
-                }}
-              />
-            </Grid>
-          </Grid>
-          <Grid container spacing={2} alignItems="center" lg={12}>
+
+          <Grid container spacing={2} alignItems="center" lg={12} mt={0.5}>
             <Grid item md={6} sm={12} xs={12} lg={6}>
               <TextField
                 margin="dense"
@@ -206,7 +179,7 @@ const Profile = () => {
                 name="linkedIn"
                 label="Linked In"
                 style={{ width: "100%" }}
-                value={currentProfile?.linkedIn}
+                value={profileData?.linkedIn || ""}
                 onChange={handleChange}
                 InputProps={{
                   endAdornment: (
@@ -227,7 +200,7 @@ const Profile = () => {
                 name="github"
                 label="Github"
                 style={{ width: "100%" }}
-                value={currentProfile?.github}
+                value={profileData?.github || ""}
                 onChange={handleChange}
                 InputProps={{
                   endAdornment: (
@@ -250,7 +223,7 @@ const Profile = () => {
                 name="codechef"
                 label="Codechef"
                 style={{ width: "100%" }}
-                value={currentProfile?.codechef}
+                value={profileData?.codechef || ""}
                 onChange={handleChange}
                 InputProps={{
                   endAdornment: (
@@ -271,7 +244,7 @@ const Profile = () => {
                 name="leetcode"
                 label="Leetcode"
                 style={{ width: "100%" }}
-                value={currentProfile?.leetcode}
+                value={profileData?.leetcode || ""}
                 onChange={handleChange}
                 InputProps={{
                   endAdornment: (
@@ -294,7 +267,7 @@ const Profile = () => {
                 name="codeforces"
                 label="Codeforces"
                 style={{ width: "100%" }}
-                value={currentProfile?.codeforces}
+                value={profileData?.codeforces || ""}
                 onChange={handleChange}
                 InputProps={{
                   endAdornment: (
@@ -312,17 +285,99 @@ const Profile = () => {
 
       </CardContent>
 
+
+
       <Grid container spacing={2} alignItems="center" lg={12} >
         <Grid item md={12} sm={12} xs={12} lg={12} style={containerStyles}>
-          <Link to={'/education'} style={linkStyle}>
-            <h4>Education Section</h4>
-            <ArrowForwardIcon style={iconStyle} />
-          </Link>
+          <Button
+            onClick={handleNavigate}
+            variant="contained"
+            sx={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              gap: '5px',
+              marginTop: '20px',
+              px: '20px',
+              backgroundColor: 'var(--btn)',
+              color: 'black',
+              '&:hover': {
+                backgroundColor: 'var(--btnHover)'
+              }
+            }}
+            disabled={true}
+            style={{ cursor: 'not-allowed' }}
+          >
+            <Link to={'/'} style={linkStyle}>
+              <ArrowBackIcon style={iconStyle} />
+              Previous
+            </Link>
+          </Button>
+          <div style={linkStyle}>
+            <Button
+              variant="contained"
+              onClick={handleSave}
+              sx={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                gap: '5px',
+                marginTop: '20px',
+                px: '20px',
+                backgroundColor: 'var(--btn)',
+                color: 'black',
+                '&:hover': {
+                  backgroundColor: 'var(--btnHover)'
+                }
+              }}
+            >
+              <Beenhere sx={{ fontSize: '20px' }} />
+              Save
+            </Button>
+          </div>
+
+          <Button
+            onClick={handleNavigate}
+            variant="contained"
+            sx={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              gap: '5px',
+              marginTop: '20px',
+              px: '20px',
+              backgroundColor: 'var(--btn)',
+              color: 'black',
+              '&:hover': {
+                backgroundColor: 'var(--btnHover)'
+              }
+            }}
+            disabled={!isProfileSaved}
+          >
+            <Link to={'/education'} style={linkStyle}>
+              Next
+              <ArrowForwardIcon style={iconStyle} />
+            </Link>
+          </Button>
+
         </Grid>
+
+        <div style={{
+          display: 'flex', justifyContent: 'center',
+          alignItems: 'center',
+          width: '100%',
+          mt: '-20px'
+        }}>
+          <Typography color="error" variant="body2" style={{ marginTop: '10px' }}>
+            Please save your profile before proceeding.
+          </Typography>
+        </div>
       </Grid>
-    </div>
+    </div >
   );
 };
+
+
 
 const linkStyle = {
   textDecoration: 'none',
@@ -333,17 +388,21 @@ const linkStyle = {
   gap: '5px',
   transition: 'border-radius 0.3s', // Add transition for border-radius
   borderRadius: '4px', // Initial border-radius
-  padding: '5px', // Add padding for hover effect
+  padding: '1px', // Add padding for hover effect
+  '&:disabled': {
+    cursor: 'not-allowed',
+    pointerEvents: 'all !important',
+  },
 };
 
 const containerStyles = {
   marginBottom: '20px',
   display: 'flex',
-  justifyContent: 'end',
+  justifyContent: 'space-between',
   alignItems: 'center',
   // backgroundColor: 'crimson',
   marginTop: '20px',
-  paddingRight: '40px',
+  // paddingRight: '40px',
 };
 const iconStyle = {
   verticalAlign: 'middle', // Align icon vertically with text

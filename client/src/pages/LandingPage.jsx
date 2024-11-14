@@ -90,9 +90,9 @@ export default function LandingPage() {
         }
     };
 
-    useEffect(() => {
-        getAllResumeData();
-    }, []);
+    // useEffect(() => {
+    //     getAllResumeData();
+    // }, []);
 
     const handleGetStarted = () => {
         navigate('/profile');
