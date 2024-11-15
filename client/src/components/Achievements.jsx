@@ -27,8 +27,63 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import axios from "axios";
 import { BASE_URL } from "../api";
 import { Beenhere } from "@mui/icons-material";
+import { deleteAchievement, updateAchievement } from "@/redux/achievementsSlice";
+import { showSuccessToast } from "./ToastNotifications";
 
 const Achievements = () => {
+
+    const currentUser = useSelector((state) => state.user.currentUser);
+
+    const currentAchievements = useSelector((state) => state.achievementsDetails);
+    const currentProfile = useSelector((state) => state.profileDetails);
+    const currentEducation = useSelector((state) => state.educationDetails);
+    const currentProjects = useSelector((state) => state.projectDetails);
+    const currentExperience = useSelector((state) => state.experienceDetails);
+    const currentSkills = useSelector((state) => state.extraDetails);
+
+
+    const [achievementsData, setAchievementsData] = useState(currentAchievements);
+    const [loading, setLoading] = useState(false);
+    const dispatch = useDispatch();
+
+    const [showWarning, setShowWarning] = useState(false);
+
+    const handleAddItem = (achievementType, value) => {
+        setAchievementsData((prevAchivementData) => ({
+            ...prevAchivementData,
+            [achievementType]: [...(prevAchivementData[achievementType] || []), value], // Append to the correct type
+        }));
+    };
+
+
+    const handleInputChange = (index, type, value) => {
+        // if (type === "programmingLanguages" || type === "webDevelopment" || type === "databases" || type === "developerTools") {
+        //   dispatch(updateSkills({ type, index, value }));
+        // } else if (type === "coreSubjects") {
+        //   dispatch(updateCoreSubjects({ index, value }));
+        // }
+        setAchievementsData((prevData) => {
+            return {
+                ...prevData,
+                [type]: prevData[type].map((item, i) => {
+                    if (i === index) {
+                        return value;
+                    }
+                    return item;
+                }),
+            };
+        });
+
+        // dispatch(updateSkills({ type, index, value }));
+    };
+
+    const handleDeleteItem = (index, type) => {
+        console.log('index', index);
+        console.log('type', type);
+        if (type === "achievements" || type === "extraCurricular") {  // Combine conditions
+            dispatch(deleteAchievement({ type, index }));
+        }
+    };
 
     const containerStyle = {
         marginTop: "30",
@@ -37,9 +92,61 @@ const Achievements = () => {
         flexDirection: "column",
     };
 
+
+
+    const handleSave = async () => {
+        // console.log('achievementsData', achievementsData);
+        Object.keys(achievementsData).forEach((type) => {
+            achievementsData[type].forEach((value, index) => {
+                dispatch(updateAchievement({ type, index, value }));
+            });
+        });
+        showSuccessToast('Achivements Data Saved Successfully!');
+        setLoading(true);
+        const resumeData = {
+            profile: currentProfile,
+            education: currentEducation,
+            projects: currentProjects,
+            experience: currentExperience,
+            skills: currentSkills,
+            achievements: currentAchievements,
+
+        };
+        console.log("resume data: ", resumeData);
+        try {
+            const response = await axios.post(`${BASE_URL}/data/resume-data?id=${currentUser._id}`, { resumeData }, {
+                headers: {
+                    authorization: currentUser.token,
+                },
+            });
+            console.log("response: ", response.data);
+
+            setTimeout(() => {
+                showSuccessToast('Resume Data saved to Database Successfully!');
+            }, 2500);
+
+            setLoading(false);
+        } catch (error) {
+            setLoading(false);
+            console.error("Error in addResumeData:", error);
+        }
+
+
+
+
+    };
+
     const handleNavigate = (e) => {
 
     };
+
+    useEffect(() => {
+        // Sync the local projectData with Redux state whenever it's updated
+        setAchievementsData(currentAchievements);
+    }, [currentAchievements]);
+
+
+
 
     return (
         <div style={containerStyle}>
@@ -60,7 +167,7 @@ const Achievements = () => {
                         Achievements
                     </Typography>
                     <Grid container spacing={2} alignItems="center" lg={12} >
-                        {/* {extraDetails?.achievements?.map((achievement, index) => (
+                        {achievementsData?.achievements?.map((achievement, index) => (
                             <Grid item md={4} sm={6} xs={12} key={index} style={{ display: 'flex', gap: '4px' }}>
                                 <TextField
                                     margin="dense"
@@ -87,13 +194,13 @@ const Achievements = () => {
                                     <DeleteIcon color="error" />
                                 </IconButton>
                             </Grid>
-                        ))} */}
+                        ))}
                     </Grid>
                     <Button
                         variant="contained" sx={{
                             marginTop: "15px", backgroundColor: "var(--btn)", color: 'black', '&:hover': { backgroundColor: "var(--btnHover)" },
                         }}
-                    // onClick={() => handleAddItem("achievements")}
+                        onClick={() => handleAddItem("achievements")}
                     >
                         Add Achievement
                     </Button>
@@ -106,7 +213,7 @@ const Achievements = () => {
                         Extra Curricular Activities
                     </Typography>
                     <Grid container spacing={2} alignItems="center" lg={12}>
-                        {/* {extraDetails?.extraCoCurricular?.map((extraCurricular, index) => (
+                        {achievementsData?.extraCurricular?.map((extraCurricular, index) => (
                             <Grid item md={4} sm={6} xs={12} key={index} style={{ display: 'flex', gap: '4px' }}>
                                 <TextField
                                     margin="dense"
@@ -119,7 +226,7 @@ const Achievements = () => {
                                     onChange={(e) =>
                                         handleInputChange(
                                             index,
-                                            "extraCoCurricular",
+                                            "extraCurricular",
                                             e.target.value
                                         )
                                     }
@@ -133,17 +240,17 @@ const Achievements = () => {
                                         ),
                                     }}
                                 />
-                                <IconButton onClick={() => handleDeleteItem(index, "extraCoCurricular")}>
+                                <IconButton onClick={() => handleDeleteItem(index, "extraCurricular")}>
                                     <DeleteIcon color="error" />
                                 </IconButton>
                             </Grid>
-                        ))} */}
+                        ))}
                     </Grid>
                     <Button
                         variant="contained" sx={{
                             marginTop: "15px", backgroundColor: "var(--btn)", color: 'black', '&:hover': { backgroundColor: "var(--btnHover)" },
                         }}
-                    // onClick={() => handleAddItem("extraCoCurricular")}
+                        onClick={() => handleAddItem("extraCurricular")}
                     >
                         Add Activities
                     </Button>
@@ -193,13 +300,13 @@ const Achievements = () => {
             Add Core Subject
           </Button>
         </div> */}
-            </CardContent>
+            </CardContent >
 
 
 
             <Grid container spacing={2} alignItems="center" lg={12} >
                 <Grid item md={12} sm={12} xs={12} lg={12} style={containerStyles}>
-                    <Link to={'/experience'} style={linkStyle}>
+                    <Link to={'/skills'} style={linkStyle}>
                         <Button
                             onClick={handleNavigate}
                             variant="contained"
@@ -224,7 +331,7 @@ const Achievements = () => {
                     <div style={linkStyle}>
                         <Button
                             variant="contained"
-                            // onClick={handleSave}
+                            onClick={handleSave}
                             sx={{
                                 display: 'flex',
                                 justifyContent: 'center',
@@ -243,7 +350,7 @@ const Achievements = () => {
                             Save
                         </Button>
                     </div>
-                    <Link to={'/achievements'} style={linkStyle}>
+                    <Link to={'/templates'} style={linkStyle}>
                         <Button
                             onClick={handleNavigate}
                             variant="contained"
@@ -270,18 +377,22 @@ const Achievements = () => {
                 </Grid>
 
                 <div style={{
-                    display: 'flex', justifyContent: 'center',
+                    display: 'flex', flexDirection: 'column', justifyContent: 'center',
                     alignItems: 'center',
+                    gap: '10px',
                     width: '100%',
                     mt: '-20px'
                 }}>
                     <Typography color="error" variant="body2" style={{ marginTop: '10px' }}>
                         Please save your achievements details before proceeding.
                     </Typography>
+                    <Typography color="error" variant="body2" style={{ marginTop: '10px' }}>
+                        Note: Please save your Data to database to retrive it next time.
+                    </Typography>
                 </div>
 
-            </Grid>
-        </div>
+            </Grid >
+        </div >
     );
 };
 

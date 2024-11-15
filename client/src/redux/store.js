@@ -6,6 +6,7 @@ import educationReducer from './educationSlice';
 import projectReducer from './projectSlice';
 import experienceReducer from './experienceSlice';
 import extraDetailsReducer from './extraDetailsSlice';
+import achievementReducer from './achievementsSlice';
 import userReducer from './userSlice';
 
 const persistConfig = {
@@ -19,6 +20,7 @@ const rootReducer = combineReducers({
   projectDetails: projectReducer,
   experienceDetails: experienceReducer,
   extraDetails: extraDetailsReducer,
+  achievementsDetails: achievementReducer,
   user: userReducer,
 });
 

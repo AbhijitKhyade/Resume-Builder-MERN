@@ -28,12 +28,12 @@ import ReactDatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
 const Experience = () => {
-  const dispatch = useDispatch();
   const currentExperiences = useSelector((state) => state.experienceDetails);
   const [showInputFields, setShowInputFields] = useState(false);
 
   // Local state to hold profile data temporarily
   const [experienceData, setExperienceData] = useState(currentExperiences);
+  const dispatch = useDispatch();
 
   const [showWarning, setShowWarning] = useState(false);
 
@@ -45,14 +45,14 @@ const Experience = () => {
         newProjects[index] = { ...newProjects[index], [name]: value };
         return newProjects;
       });
-      dispatch(updateExperience({ index, field: name, value }));
+      // dispatch(updateExperience({ index, field: name, value }));
     } else {
       setExperienceData((prevData) => {
         const newProjects = [...prevData];
         newProjects[index] = { ...newProjects[index], desc: content };
         return newProjects;
       });
-      dispatch(updateExperience({ index, field: "desc", value: content }));
+      //  dispatch(updateExperience({ index, field: "desc", value: content }));
     }
   };
 
@@ -207,7 +207,7 @@ const Experience = () => {
                     style={{ width: "100%" }}
                     value={experienceData[index].end_date}
                     onChange={(event) => handleInputChange(index, event)}
-                    
+
                   />
                 </Grid>
               </Grid>

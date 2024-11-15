@@ -9,7 +9,7 @@ const projectSlice = createSlice({
     reducers: {
         updateProject: (state, action) => {
             const updates = Array.isArray(action.payload) ? action.payload : [action.payload];
-            console.log('action.payload', action.payload);
+            // console.log('action.payload', action.payload);
             const updatedProjects = [...state]; // Create a copy of the state array
             updates.forEach((update) => {
                 const { index, field, value } = update;

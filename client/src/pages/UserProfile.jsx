@@ -23,6 +23,7 @@ import { clearProjects } from '../redux/projectSlice';
 import { clearExperience } from '../redux/experienceSlice';
 import { clearExtraDetails } from '../redux/extraDetailsSlice';
 import { clearProfile } from '../redux/profileSlice';
+import { clearAchievements } from '@/redux/achievementsSlice';
 
 export default function UserProfile() {
   const currentUser = useSelector((state) => state.user.currentUser);
@@ -111,6 +112,7 @@ export default function UserProfile() {
     dispatch(clearProjects());
     dispatch(clearExperience());
     dispatch(clearExtraDetails());
+    distpatch(clearAchievements());
   };
 
   const sidebarLinks = [

@@ -14,7 +14,8 @@ import { updateProject } from '../redux/projectSlice';
 import { updateExperience } from '../redux/experienceSlice';
 import axios from 'axios';
 import { BASE_URL } from '../api';
-import { updateAchievements, updateExtraCoCurricular, updateSkills } from '../redux/extraDetailsSlice';
+import { updateSkills } from '../redux/extraDetailsSlice';
+import { updateAchievement } from '@/redux/achievementsSlice';
 
 const theme = createTheme({
     palette: {
@@ -48,7 +49,7 @@ export default function LandingPage() {
                     authorization: currentUser.token,
                 },
             });
-            // console.log("response: ", response.data.resumeData[0]);
+            console.log("response: ", response.data.resumeData[0]);
             const resumeData = response.data.resumeData[0];
             // console.log('Education:', resumeData.education[0])
             if (resumeData) {
@@ -66,33 +67,37 @@ export default function LandingPage() {
                         dispatch(updateExperience({ index, field, value: experience[field] }));
                     });
                 });
-                const { skills, achievements, extraCoCurricular } = resumeData.extraDetails;
+                const skills = resumeData.skills;
                 // Update skills
-                // console.log(skills);
                 Object.keys(skills).forEach((type) => {
-                    skills[type].forEach((skill, index) => {
-                        dispatch(updateSkills({ type, index, value: skill }));
-                    });
+                    if (Array.isArray(skills[type])) {
+                        skills[type].forEach((skill, index) => {
+                            dispatch(updateSkills({ type, index, value: skill }));
+                        });
+                    }
                 });
+
+                const achievements = resumeData.achievements;
 
                 // Update achievements
-                achievements.forEach((achievement, index) => {
-                    dispatch(updateAchievements({ index, value: achievement }));
+                Object.keys(achievements).forEach((type) => {
+                    if (Array.isArray(achievements[type])) {
+                        achievements[type].forEach((achievement, index) => {
+                            dispatch(updateAchievement({ type, index, value: achievement }));
+                        });
+                    }
                 });
 
-                // Update extra co-curricular activities
-                extraCoCurricular.forEach((activity, index) => {
-                    dispatch(updateExtraCoCurricular({ index, value: activity }));
-                });
+
             }
         } catch (error) {
             console.error("Error in getAllResumeData:", error);
         }
     };
 
-    // useEffect(() => {
-    //     getAllResumeData();
-    // }, []);
+    useEffect(() => {
+        getAllResumeData();
+    }, []);
 
     const handleGetStarted = () => {
         navigate('/profile');

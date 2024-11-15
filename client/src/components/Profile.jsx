@@ -27,25 +27,33 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 
 const Profile = () => {
-  const dispatch = useDispatch();
+  const currentUser = useSelector((state) => state.user.currentUser);
   const currentProfile = useSelector((state) => state.profileDetails);
-
+  const currentEducation = useSelector((state) => state.educationDetails);
+  const currentProjects = useSelector((state) => state.projectDetails);
+  const currentExperience = useSelector((state) => state.experienceDetails);
+  const currentSkills = useSelector((state) => state.extraDetails);
+  const currentAchievements = useSelector((state) => state.achievementsDetails);
+  
   // Local state to hold profile data temporarily
   const [profileData, setProfileData] = useState(currentProfile);
-
+  
   // Check if profile is saved from Redux state
   const isProfileSaved = currentProfile.isProfileUpdated;
   const [showWarning, setShowWarning] = useState(false);
-
+  const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
+  
   const handleChange = (event) => {
     const { name, value } = event.target;
     setProfileData((prevData) => ({ ...prevData, [name]: value }));
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     dispatch(updateProfile({ ...profileData, isProfileUpdated: true })); // Update profile and mark it as saved
     showSuccessToast("Profile details saved successfully");
     setShowWarning(false);  // Hide warning message after save
+    
   };
 
   const handleNavigate = (e) => {
@@ -170,7 +178,7 @@ const Profile = () => {
             </Grid>
           </Grid>
 
-          <Grid container spacing={2} alignItems="center" lg={12} mt={0.5}>
+          <Grid container spacing={2} alignItems="center" lg={12} >
             <Grid item md={6} sm={12} xs={12} lg={6}>
               <TextField
                 margin="dense"

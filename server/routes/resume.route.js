@@ -6,6 +6,6 @@ const router = express.Router();
 
 router.post('/resume-data', verifyUser, addResumeData);
 router.get('/get-all-resume-data', verifyUser, getAllResumeData);
-router.post('/generate-resume', generateResume);
+router.get('/generate-resume', generateResume);
 
 module.exports = router;

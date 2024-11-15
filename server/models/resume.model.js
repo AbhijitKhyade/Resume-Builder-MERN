@@ -31,6 +31,9 @@ const educationSchema = new mongoose.Schema({
     city2: String,
     percentage: String,
     board1: String,
+    stream: String,
+    jeePercentile: String,
+    mhtcetPercentile: String,
     school: String,
     startYear3: String,
     endYear3: String,
@@ -44,7 +47,7 @@ const projectSchema = new mongoose.Schema({
     title: String,
     description: String,
     link: String,
-    techStack: String
+    projectGithubUrl: String
 });
 
 // Define schema for Experience
@@ -58,16 +61,16 @@ const experienceSchema = new mongoose.Schema({
 
 // Define schema for ExtraDetails
 const extraDetailsSchema = new mongoose.Schema({
-    skills: {
-        languages: [String],
-        web: [String],
-        webFrameworks: [String],
-        databases: [String],
-        other: [String]
-    },
+    programmingLanguages: [String],
+    webDevelopment: [String],
+    databases: [String],
+    developerTools: [String],
+});
+
+// Define schema for Achievements
+const achievementSchema = new mongoose.Schema({
     achievements: [String],
-    extraCoCurricular: [String],
-    coreSubjects: [String]
+    extraCurricular: [String],
 });
 
 // Define main schema for user resume
@@ -76,7 +79,8 @@ const resumeSchema = new mongoose.Schema({
     education: [educationSchema],
     projects: [projectSchema],
     experience: [experienceSchema],
-    extraDetails: extraDetailsSchema,
+    skills: extraDetailsSchema,
+    achievements: achievementSchema,
     userId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'

@@ -2,93 +2,45 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-    skills: {
-        languages: [],
-        web: [],
-        webFrameworks: [],
-        databases: [],
-        other: [],
-    },
-    achievements: [],
-    extraCoCurricular: [],
-    coreSubjects: [],
+    programmingLanguages: [],
+    webDevelopment: [],
+    databases: [],
+    developerTools: [],
 };
 
 const extraDetailsSlice = createSlice({
     name: "extraDetails",
     initialState,
     reducers: {
-        // updateSkills: (state, action) => {
-        //     const { type, index, value } = action.payload;
-        //     console.log(action.payload);
-        //     const updatedSkills = {
-        //         ...state.skills,
-        //         [type]: state.skills[type].map((skill, i) =>
-        //             i === index ? value : skill
-        //         ),
-        //     };
-
-        //     console.log("Updated Skills:", updatedSkills);
-
-        //     return {
-        //         ...state,
-        //         skills: updatedSkills,
-        //     };
-        // },
         updateSkills(state, action) {
             const { type, index, value } = action.payload;
 
             // Ensure the array exists before updating
-            if (state.skills[type]) {
+            if (state[type]) {
                 // Update the specific item in the nested array
-                state.skills[type][index] = value;
+                state[type][index] = value;
             } else {
                 // Create a new array if it doesn't exist and update
-                state.skills[type] = [];
-                state.skills[type][index] = value;
+                state[type] = [];
+                state[type][index] = value;
             }
         },
-        addSkills: (state, action) => {
+        addSkills(state, action) {
             const { type } = action.payload;
-            return {
-                ...state,
-                skills: {
-                    ...state.skills,
-                    [type]: [...(state.skills[type] || []), ""]
-                }
-            };
+            // Ensure the array exists before adding
+            // console.log('action.payload', action.payload);
+            if (!state[type]) {
+                state[type] = [];
+            }
+            state[type].push("");
         },
-        deleteSkills: (state, action) => {
+        deleteSkills(state, action) {
             const { type, index } = action.payload;
-            return {
-                ...state,
-                skills: {
-                    ...state.skills,
-                    [type]: state.skills[type].filter((_, i) => i !== index)
-                }
-            };
-        },
-        updateAchievements: (state, action) => {
-            const { index, value } = action.payload;
-            state.achievements[index] = value;
-        },
-        deleteAchievements: (state, action) => {
-            const index = action.payload;
-            state.achievements.splice(index, 1);
-        },
-        addAchievements: (state) => {
-            state.achievements.push("");
-        },
-        updateExtraCoCurricular: (state, action) => {
-            const { index, value } = action.payload;
-            state.extraCoCurricular[index] = value;
-        },
-        addExtraCoCurricular: (state) => {
-            state.extraCoCurricular.push("");
-        },
-        deleteExtraCoCurricular: (state, action) => {
-            const index = action.payload;
-            state.extraCoCurricular.splice(index, 1);
+            // console.log('action.payload', action.payload);
+            // Ensure the array exists before deleting
+            if (state[type]) {
+                state[type].splice(index, 1);
+            }
         },
         updateCoreSubjects: (state, action) => {
             const { index, value } = action.payload;
@@ -108,13 +60,7 @@ const extraDetailsSlice = createSlice({
 export const {
     updateSkills,
     addSkills,
-    updateAchievements,
-    addAchievements,
-    updateExtraCoCurricular,
-    addExtraCoCurricular,
     deleteSkills,
-    deleteAchievements,
-    deleteExtraCoCurricular,
     updateCoreSubjects,
     deleteCoreSubjects,
     addCoreSubjects,

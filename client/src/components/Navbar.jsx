@@ -20,6 +20,7 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import '../styles/Navbar.css';
 import { clearProfile } from "../redux/profileSlice";
+import { clearAchievements } from "@/redux/achievementsSlice";
 
 const Navbar = () => {
   const currentUser = useSelector((state) => state.user.currentUser);
@@ -74,6 +75,7 @@ const Navbar = () => {
     dispatch(clearProjects());
     dispatch(clearExperience());
     dispatch(clearExtraDetails());
+    dispatch(clearAchievements());
   };
   // console.log(currentUser);
   return (

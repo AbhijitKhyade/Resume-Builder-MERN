@@ -24,9 +24,16 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { showSuccessToast } from "./ToastNotifications";
 import { Beenhere } from "@mui/icons-material";
 
+
 const Education = () => {
   const dispatch = useDispatch();
   const currentEducation = useSelector((state) => state.educationDetails);
+  const currentUser = useSelector((state) => state.user.currentUser);
+  const currentProfile = useSelector((state) => state.profileDetails);
+  const currentProjects = useSelector((state) => state.projectDetails);
+  const currentExperience = useSelector((state) => state.experienceDetails);
+  const currentSkills = useSelector((state) => state.extraDetails);
+  const currentAchievements = useSelector((state) => state.achievementsDetails);
 
 
   // Local state to hold profile data temporarily
@@ -35,6 +42,7 @@ const Education = () => {
   // Check if profile is saved from Redux state
   const isEducationUpdated = currentEducation.isEducationUpdated;
   const [showWarning, setShowWarning] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -42,10 +50,11 @@ const Education = () => {
     setEducationData((prevData) => ({ ...prevData, [name]: value }));
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     dispatch(updateEducation({ ...educationData, isEducationUpdated: true })); // Update profile and mark it as saved
     showSuccessToast("Education details saved successfully");
     setShowWarning(false);  // Hide warning message after save
+    
   };
 
   const handleNavigate = (e) => {
